@@ -18,7 +18,7 @@ import DitherCursor from "./dither-cursor";
 import RotatingCards, { type Card } from "./rotating-cards";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
-const headlineText = "Sleep clean. Wake clearer.";
+const headlineLines = ["Sleep clean.", "Wake clearer."];
 
 const cardData = [
   { label: "Fresh nightly surface", icon: Moon },
@@ -126,24 +126,36 @@ export function Hero(): ReactNode {
           Disposable pillow liners
         </p>
         <h1
-          className="mb-8 text-5xl font-normal tracking-[-0.035em] md:text-8xl lg:text-8xl"
+          className="mb-8 text-5xl font-normal leading-[0.98] tracking-[-0.035em] md:text-8xl lg:text-8xl"
           style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
         >
-          {headlineText.split("").map((char, index) => (
-            <motion.span
-              key={index}
-              initial={{ opacity: 0, filter: "blur(10px)" }}
-              animate={{ opacity: 1, filter: "blur(0px)" }}
-              transition={{
-                duration: 0.4,
-                delay: index * 0.03,
-                ease: "easeOut",
-              }}
-              className="inline-block"
-              style={{ whiteSpace: char === " " ? "pre" : "normal" }}
-            >
-              {char}
-            </motion.span>
+          {headlineLines.map((line, lineIndex) => (
+            <span key={line} className={`block ${lineIndex === 1 ? "mt-2 md:mt-3" : ""}`}>
+              {line.split("").map((char, charIndex) => {
+                const animationIndex =
+                  headlineLines
+                    .slice(0, lineIndex)
+                    .reduce((total, previousLine) => total + previousLine.length, 0) +
+                  charIndex;
+
+                return (
+                  <motion.span
+                    key={`${lineIndex}-${charIndex}`}
+                    initial={{ opacity: 0, filter: "blur(10px)" }}
+                    animate={{ opacity: 1, filter: "blur(0px)" }}
+                    transition={{
+                      duration: 0.4,
+                      delay: animationIndex * 0.03,
+                      ease: "easeOut",
+                    }}
+                    className="inline-block"
+                    style={{ whiteSpace: char === " " ? "pre" : "normal" }}
+                  >
+                    {char}
+                  </motion.span>
+                );
+              })}
+            </span>
           ))}
         </h1>
         <motion.p
