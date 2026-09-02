@@ -8,29 +8,29 @@ const easeOut = [0.16, 1, 0.3, 1] as const;
 
 const faqs = [
   {
-    question: "How does TLDR summarize content?",
+    question: "What is DOZE?",
     answer:
-      "TLDR uses advanced AI models to analyze and extract key information from any article, video, or document. Our algorithms identify the most important points and present them in a concise, easy-to-read format.",
+      "DOZE is a disposable pillow liner designed to give you a fresh sleep surface without replacing and washing your pillowcase every single day.",
   },
   {
-    question: "Is my data private and secure?",
+    question: "How often should I use a fresh liner?",
     answer:
-      "Absolutely. We process content locally whenever possible and never store your browsing history or personal data. All connections are encrypted, and we're fully GDPR compliant.",
+      "DOZE is built around a simple nightly reset: use a fresh liner for the night, then replace it when you are ready for bed again.",
   },
   {
-    question: "Can I use TLDR on any website?",
+    question: "What does the liner feel like?",
     answer:
-      "Yes! TLDR works on virtually any website with text content. This includes news articles, blog posts, research papers, documentation, and even YouTube video transcripts.",
+      "The liner is being developed with a soft, lightweight lyocell-based nonwoven material selected to feel comfortable against your face while you sleep.",
   },
   {
-    question: "What's included in the free plan?",
+    question: "Can I travel with DOZE?",
     answer:
-      "The free plan includes 10 summaries per day, basic summarization features, and access to both Chrome and Safari extensions. No credit card required to get started.",
+      "Yes. DOZE is designed to be easy to pack for hotels, dorms, weekend trips, and anywhere you want to keep your usual sleep routine with you.",
   },
   {
-    question: "How do I cancel my subscription?",
+    question: "Is DOZE an acne treatment?",
     answer:
-      "You can cancel anytime from your account settings. There are no cancellation fees, and you'll retain access to Pro features until the end of your billing period.",
+      "No. DOZE is a hygiene-focused sleep accessory, not a medical treatment. It is designed for people who want a fresh surface between their skin and pillow as part of their nightly routine.",
   },
 ];
 
@@ -57,7 +57,10 @@ function FAQItem({
         onClick={onToggle}
         className="group flex w-full items-center justify-between py-6 text-left"
       >
-        <span className="text-foreground text-lg font-medium pr-8 md:text-xl">
+        <span
+          className="text-foreground text-lg font-normal pr-8 md:text-xl"
+          style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+        >
           {faq.question}
         </span>
         <motion.div
@@ -97,7 +100,7 @@ export function FAQ(): ReactNode {
   };
 
   return (
-    <section className="bg-foreground px-6 py-16 md:py-32 rounded-4xl">
+    <section id="faq" className="bg-foreground px-6 py-16 md:py-32 rounded-4xl">
       <div className="mx-auto max-w-3xl">
         <motion.div
           ref={headerRef}
@@ -106,8 +109,14 @@ export function FAQ(): ReactNode {
           animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, ease: easeOut }}
         >
-          <h2 className="text-background text-3xl font-medium tracking-tight md:text-4xl lg:text-5xl">
-            Common Questions
+          <p className="text-background/60 mb-3 text-xs font-medium tracking-[0.25em] uppercase">
+            The details
+          </p>
+          <h2
+            className="text-background text-3xl font-normal tracking-tight md:text-4xl lg:text-5xl"
+            style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+          >
+            Questions before you doze off?
           </h2>
         </motion.div>
 
@@ -137,13 +146,13 @@ export function FAQ(): ReactNode {
           transition={{ duration: 0.6, delay: 0.2, ease: easeOut }}
         >
           <p className="text-background/60 mb-6 text-base">
-            Still have questions? We&apos;re here to help.
+            Something else on your mind? We would love to hear from you.
           </p>
           <a
-            href="mailto:hello@tldr.app"
+            href="mailto:hello@dozesleepclean.com"
             className="group inline-flex items-center gap-3 rounded-md bg-background py-3 pl-5 pr-3 font-medium text-foreground shadow-lg transition-all duration-500 ease-out hover:rounded-[50px]"
           >
-            <span>Get in Touch</span>
+            <span>Contact DOZE</span>
             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-foreground text-background transition-all duration-300 group-hover:scale-110">
               <ChevronRightIcon className="h-4 w-4 relative left-px" />
             </span>
