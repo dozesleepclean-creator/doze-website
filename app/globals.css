@@ -112,7 +112,7 @@ header nav > div:first-child > a > span {
 }
 
 header nav > div:first-child > a > span::before {
-  content: "dozé";
+  content: "doze";
   display: inline-block;
   color: var(--brand-cream);
   font-family: Georgia, "Times New Roman", serif;
