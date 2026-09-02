@@ -1,17 +1,6 @@
 "use client";
 
-import {
-  ChevronRight as ChevronRightIcon,
-  Feather,
-  Heart,
-  Moon,
-  Package,
-  Plane,
-  ShieldCheck,
-  Sparkles,
-  Sun,
-  WashingMachine,
-} from "lucide-react";
+import { ChevronRight as ChevronRightIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import DitherCursor from "./dither-cursor";
@@ -21,36 +10,36 @@ const easeOut = [0.16, 1, 0.3, 1] as const;
 const headlineLines = ["Sleep clean.", "Wake clearer."];
 
 const cardData = [
-  { label: "Fresh nightly surface", icon: Moon },
-  { label: "Soft-touch feel", icon: Feather },
-  { label: "Simple nightly reset", icon: Sparkles },
-  { label: "Travel friendly", icon: Plane },
-  { label: "Less pillowcase laundry", icon: WashingMachine },
-  { label: "Skin-conscious routine", icon: ShieldCheck },
-  { label: "Made for slow mornings", icon: Sun },
-  { label: "Easy to keep on hand", icon: Package },
-  { label: "A calmer bedtime ritual", icon: Heart },
+  { label: "DOZE identity", position: "0% 0%" },
+  { label: "Nightly ritual", position: "50% 0%" },
+  { label: "Liner texture", position: "100% 0%" },
+  { label: "Fresh sleep surface", position: "0% 100%" },
+  { label: "Deep sleep. Clean mornings.", position: "50% 100%" },
+  { label: "30 liner box", position: "100% 100%" },
 ];
 
-const carouselCards: Card[] = cardData.map((card, index) => {
-  const Icon = card.icon;
-
-  return {
-    id: index + 1,
-    content: (
-      <div className="flex h-full flex-col p-3">
-        <div className="bg-brand-ivory border-border/70 flex flex-1 items-center justify-center rounded-t-md rounded-b-full border">
-          <Icon className="text-foreground h-20 w-20" strokeWidth={0.9} />
-        </div>
-        <div className="px-2 pt-4 text-center">
-          <span className="text-foreground text-sm font-medium tracking-wide">
-            {card.label}
-          </span>
-        </div>
+const carouselCards: Card[] = cardData.map((card, index) => ({
+  id: index + 1,
+  content: (
+    <div className="flex h-full flex-col p-2">
+      <div
+        className="border-border/60 min-h-0 flex-1 rounded-t-lg rounded-b-[2.5rem] border bg-cover bg-no-repeat shadow-sm"
+        style={{
+          backgroundImage: 'url("/img/doze-carousel-sprite.webp")',
+          backgroundSize: "300% 200%",
+          backgroundPosition: card.position,
+        }}
+        role="img"
+        aria-label={card.label}
+      />
+      <div className="px-2 pb-1 pt-3 text-center">
+        <span className="text-foreground text-xs font-medium tracking-[0.12em] uppercase">
+          {card.label}
+        </span>
       </div>
-    ),
-  };
-});
+    </div>
+  ),
+}));
 
 export function Hero(): ReactNode {
   const sectionRef = useRef<HTMLElement>(null);
