@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, MousePointer, Sparkles } from "lucide-react";
+import { Moon, PackageOpen, Sun } from "lucide-react";
 import { motion, useInView } from "motion/react";
 import type { ReactNode } from "react";
 import { useRef } from "react";
@@ -9,22 +9,22 @@ const easeOut = [0.16, 1, 0.3, 1] as const;
 
 const steps = [
   {
-    icon: Download,
-    title: "Install the extension",
+    icon: PackageOpen,
+    title: "Unfold a fresh liner",
     description:
-      "Add TLDR to Chrome or Safari with one click. No sign-up required to get started.",
+      "Keep DOZE by your bed and start the night with a fresh disposable liner ready to go.",
   },
   {
-    icon: MousePointer,
-    title: "Browse normally",
+    icon: Moon,
+    title: "Slip it over your pillow",
     description:
-      "Visit any article, video, or document. TLDR detects content automatically.",
+      "Create a fresh surface between your skin and your pillowcase in seconds — no extra laundry required.",
   },
   {
-    icon: Sparkles,
-    title: "Get your summary",
+    icon: Sun,
+    title: "Wake up. Reset. Repeat.",
     description:
-      "One click delivers key takeaways. Save hours every week, effortlessly.",
+      "Use it for the night, then replace it with a fresh liner when bedtime comes around again.",
   },
 ];
 
@@ -42,7 +42,7 @@ function StepCard({
   return (
     <motion.div
       ref={ref}
-      className="bg-muted min-h-70 rounded-2xl p-6 md:p-8 flex flex-col"
+      className="bg-muted min-h-70 rounded-2xl p-6 md:p-8 flex flex-col border border-border/60"
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ duration: 0.6, delay: index * 0.1, ease: easeOut }}
@@ -50,7 +50,10 @@ function StepCard({
       <div className="text-foreground mb-6">
         <Icon className="h-12 w-12" strokeWidth={1} />
       </div>
-      <h3 className="mb-3 text-xl font-medium tracking-tight md:text-2xl mt-auto">
+      <h3
+        className="mb-3 text-xl font-normal tracking-tight md:text-2xl mt-auto"
+        style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+      >
         {step.title}
       </h3>
       <p className="text-muted-foreground text-base leading-relaxed">
@@ -65,7 +68,7 @@ export function HowItWorks(): ReactNode {
   const isHeaderInView = useInView(headerRef, { once: true, amount: 0.5 });
 
   return (
-    <section className="bg-background px-6 py-16 md:py-32">
+    <section id="how-it-works" className="bg-background px-6 py-16 md:py-32">
       <div className="mx-auto max-w-6xl">
         <motion.div
           ref={headerRef}
@@ -74,8 +77,14 @@ export function HowItWorks(): ReactNode {
           animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, ease: easeOut }}
         >
-          <h2 className="text-3xl font-medium tracking-tight md:text-4xl lg:text-5xl">
-            Get Started
+          <p className="text-muted-foreground mb-3 text-xs font-medium tracking-[0.25em] uppercase">
+            Your nightly reset
+          </p>
+          <h2
+            className="text-3xl font-normal tracking-tight md:text-4xl lg:text-5xl"
+            style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+          >
+            Fresh pillow. Three simple steps.
           </h2>
         </motion.div>
 
