@@ -101,6 +101,44 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* DOZE brand wordmark in the floating navigation */
+header nav > div:first-child > a > span {
+  position: relative;
+  display: inline-block;
+  min-width: 5.4rem;
+  font-size: 0;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+header nav > div:first-child > a > span::before {
+  content: "dozé";
+  display: inline-block;
+  color: var(--brand-cream);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.25rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.16em;
+}
+
+header nav > div:first-child > a > span::after {
+  content: "z  z  z";
+  position: absolute;
+  top: -0.55rem;
+  right: -0.15rem;
+  width: 2.2rem;
+  color: var(--brand-cream);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.56rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  transform: rotate(-32deg);
+  transform-origin: center;
+  opacity: 0.95;
+}
+
 ::selection {
   background-color: var(--accent);
   color: var(--brand-blue-deep);
