@@ -4,6 +4,7 @@ import { ArrowUpRight, Instagram, Mail } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import React, { useState, useSyncExternalStore, type ReactNode } from "react";
+import { DozeWordmark } from "./doze-wordmark";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
 const easeInOut = [0.65, 0, 0.35, 1] as const;
@@ -234,10 +235,8 @@ export function Header(): ReactNode {
           transition={{ ...spring, delay: isMenuOpen ? 0 : 0.15 }}
         >
           <div className="flex w-full items-center justify-between py-2 pr-2 pl-4">
-            <Link href="/" aria-label="DOZE home">
-              <span className="text-background text-4xl font-extrabold -tracking-widest">
-                DOZE
-              </span>
+            <Link href="/" aria-label="DOZE home" className="text-background">
+              <DozeWordmark size="nav" />
             </Link>
 
             <button
