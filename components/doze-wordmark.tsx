@@ -7,7 +7,18 @@ export function DozeWordmark({
   size?: "nav" | "footer";
   className?: string;
 }): ReactNode {
-  const sizeClass = size === "footer" ? "text-6xl md:text-7xl" : "text-4xl";
+  const isFooter = size === "footer";
+  const sizeClass = isFooter ? "text-6xl md:text-7xl" : "text-4xl";
+
+  const zOneClass = isFooter
+    ? "left-[1.15rem] top-[-0.15rem] text-[0.24em]"
+    : "left-[0.72rem] top-[-0.08rem] text-[0.24em]";
+  const zTwoClass = isFooter
+    ? "left-[1.72rem] top-[-0.72rem] text-[0.20em]"
+    : "left-[1.08rem] top-[-0.43rem] text-[0.20em]";
+  const zThreeClass = isFooter
+    ? "left-[2.25rem] top-[-1.25rem] text-[0.17em]"
+    : "left-[1.42rem] top-[-0.76rem] text-[0.17em]";
 
   return (
     <span
@@ -20,19 +31,19 @@ export function DozeWordmark({
         z
         <span
           aria-hidden="true"
-          className="absolute left-[0.48em] top-[-0.18em] text-[0.26em] leading-none tracking-normal"
+          className={`absolute leading-none tracking-normal ${zOneClass}`}
         >
           z
         </span>
         <span
           aria-hidden="true"
-          className="absolute left-[0.70em] top-[-0.52em] text-[0.22em] leading-none tracking-normal"
+          className={`absolute leading-none tracking-normal ${zTwoClass}`}
         >
           z
         </span>
         <span
           aria-hidden="true"
-          className="absolute left-[0.90em] top-[-0.84em] text-[0.18em] leading-none tracking-normal"
+          className={`absolute leading-none tracking-normal ${zThreeClass}`}
         >
           z
         </span>
