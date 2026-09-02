@@ -1,26 +1,27 @@
 import type { Metadata } from "next";
 
 export const siteConfig = {
-  name: "React Bits Pro - Minimal Template",
-  tagline: "Read smarter, not longer",
+  name: "DOZE",
+  tagline: "Sleep clean. Wake clearer.",
   description:
-    "AI-powered summaries for articles, videos, and documents. Save hours every week.",
+    "Disposable pillow liners designed to give you a fresh sleep surface each night without changing your pillowcase every day.",
   url: "https://example.com",
   ogImage: "/og-image.png",
-  creator: "@tldr",
+  creator: "DOZE",
   authors: [
     {
-      name: "TLDR Technologies",
+      name: "DOZE",
       url: "https://example.com",
     },
   ],
   keywords: [
-    "AI summarizer",
-    "article summary",
-    "TLDR",
-    "content summarization",
-    "productivity",
-    "reading assistant",
+    "DOZE",
+    "disposable pillow liner",
+    "pillowcase liner",
+    "sleep hygiene",
+    "fresh pillow surface",
+    "travel pillow liner",
+    "skin conscious sleep",
   ],
 } as const;
 
@@ -70,7 +71,6 @@ export const baseMetadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     images: [siteConfig.ogImage],
-    creator: siteConfig.creator,
   },
   icons: {
     icon: "/favicon.ico",
