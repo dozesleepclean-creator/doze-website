@@ -1,47 +1,56 @@
 "use client";
 
-import { ChevronRight as ChevronRightIcon } from "lucide-react";
+import {
+  ChevronRight as ChevronRightIcon,
+  Feather,
+  Heart,
+  Moon,
+  Package,
+  Plane,
+  ShieldCheck,
+  Sparkles,
+  Sun,
+  WashingMachine,
+} from "lucide-react";
 import { motion } from "motion/react";
-import Image from "next/image";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import DitherCursor from "./dither-cursor";
 import RotatingCards, { type Card } from "./rotating-cards";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
-const headlineText = "No More Time To Waste";
+const headlineText = "Sleep clean. Wake clearer.";
 
 const cardData = [
-  { label: "Chrome Extension", image: "/img/chrome-extension.webp" },
-  { label: "Safari Extension", image: "/img/safari-extension.webp" },
-  { label: "API Access", image: "/img/api-access.webp" },
-  { label: "Article Summary", image: "/img/article-summary.webp" },
-  { label: "Video Summary", image: "/img/video-summary.webp" },
-  { label: "Podcast Summary", image: "/img/podcast-summary.webp" },
-  { label: "PDF Summary", image: "/img/pdf-summary.webp" },
-  { label: "Research Papers", image: "/img/research-papers.webp" },
-  { label: "Social Threads", image: "/img/social-threads.webp" },
-  { label: "Email Digest", image: "/img/email-digest.webp" },
-  { label: "Book Summary", image: "/img/book-summary.webp" },
+  { label: "Fresh nightly surface", icon: Moon },
+  { label: "Soft-touch feel", icon: Feather },
+  { label: "Simple nightly reset", icon: Sparkles },
+  { label: "Travel friendly", icon: Plane },
+  { label: "Less pillowcase laundry", icon: WashingMachine },
+  { label: "Skin-conscious routine", icon: ShieldCheck },
+  { label: "Made for slow mornings", icon: Sun },
+  { label: "Easy to keep on hand", icon: Package },
+  { label: "A calmer bedtime ritual", icon: Heart },
 ];
 
-const carouselCards: Card[] = cardData.map((card, index) => ({
-  id: index + 1,
-  content: (
-    <div className="flex h-full flex-col p-2">
-      <div className="relative flex-1 overflow-hidden rounded-t-sm rounded-b-full">
-        <Image
-          src={card.image}
-          alt={card.label}
-          fill
-          className="object-cover grayscale"
-        />
+const carouselCards: Card[] = cardData.map((card, index) => {
+  const Icon = card.icon;
+
+  return {
+    id: index + 1,
+    content: (
+      <div className="flex h-full flex-col p-3">
+        <div className="bg-brand-ivory border-border/70 flex flex-1 items-center justify-center rounded-t-md rounded-b-full border">
+          <Icon className="text-foreground h-20 w-20" strokeWidth={0.9} />
+        </div>
+        <div className="px-2 pt-4 text-center">
+          <span className="text-foreground text-sm font-medium tracking-wide">
+            {card.label}
+          </span>
+        </div>
       </div>
-      <div className="px-1 pt-3 text-center">
-        <span className="text-sm font-medium">{card.label}</span>
-      </div>
-    </div>
-  ),
-}));
+    ),
+  };
+});
 
 export function Hero(): ReactNode {
   const sectionRef = useRef<HTMLElement>(null);
@@ -78,7 +87,7 @@ export function Hero(): ReactNode {
   }, []);
 
   useEffect(() => {
-    const targetOpacity = isVisible ? 1 : 0;
+    const targetOpacity = isVisible ? 0.35 : 0;
 
     const animate = () => {
       const diff = targetOpacity - opacityRef.current;
@@ -106,13 +115,20 @@ export function Hero(): ReactNode {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-dvh flex-col items-center justify-start overflow-hidden px-6 pt-40 sm:pt-82"
+      className="relative flex min-h-dvh flex-col items-center justify-start overflow-hidden px-6 pt-40 sm:pt-72"
     >
       {!isMobile && shouldRender && (
-        <DitherCursor opacity={opacity} />
+        <DitherCursor color="#7f95b5" opacity={opacity} />
       )}
-      <div ref={headlineRef} className="relative z-10 mx-auto md:text-center">
-        <h1 className="mb-8 text-5xl font-medium tracking-tighter md:text-8xl lg:text-8xl">
+
+      <div ref={headlineRef} className="relative z-10 mx-auto max-w-5xl text-center">
+        <p className="text-muted-foreground mb-5 text-xs font-medium tracking-[0.28em] uppercase md:text-sm">
+          Disposable pillow liners
+        </p>
+        <h1
+          className="mb-8 text-5xl font-normal tracking-[-0.035em] md:text-8xl lg:text-8xl"
+          style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+        >
           {headlineText.split("").map((char, index) => (
             <motion.span
               key={index}
@@ -133,31 +149,16 @@ export function Hero(): ReactNode {
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.8,
-            delay: 0.8,
-            ease: "easeOut",
-          }}
-          className="text-muted-foreground mx-auto mt-6 max-w-xl text-2xl leading-12 tracking-tight md:text-3xl"
+          transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
+          className="text-muted-foreground mx-auto mt-6 max-w-2xl text-xl leading-relaxed tracking-tight md:text-2xl"
         >
-          <span className="text-foreground bg-foreground/5 inline-block rounded-md px-2 py-0.5 leading-10">
-            Read less
-          </span>{" "}
-          &{" "}
-          <span className="text-foreground bg-foreground/5 inline-block rounded-full px-4 py-0.5 leading-10">
-            know more
-          </span>{" "}
-          Save{" "}
-          <span className="text-foreground bg-foreground/5 inline-block rounded-md px-2 py-0.5 leading-10">
-            hours
-          </span>{" "}
-          every week with AI summaries done right.
+          A fresh sleep surface each night, without changing your pillowcase every day.
+          DOZE makes a cleaner-feeling bedtime routine simple.
         </motion.p>
       </div>
 
-      {/* Carousel */}
       <div
-        className="relative -mx-6 mt-2 h-100 w-screen overflow-hidden sm:h-125 md:h-137.5 lg:h-150 xl:h-175"
+        className="relative -mx-6 mt-4 h-100 w-screen overflow-hidden sm:h-125 md:h-137.5 lg:h-150 xl:h-175"
         style={{
           maskImage:
             "linear-gradient(to bottom, black 0%, black 60%, transparent 100%)",
@@ -170,10 +171,10 @@ export function Hero(): ReactNode {
             <RotatingCards
               cards={carouselCards}
               radius={1000}
-              cardClassName="rounded-md"
+              cardClassName="rounded-xl bg-brand-ivory border border-border/60 shadow-sm"
               cardWidth={350}
               cardHeight={275}
-              duration={100}
+              duration={110}
               pauseOnHover={true}
               autoPlay={true}
               initialRotation={-90}
@@ -191,19 +192,21 @@ export function Hero(): ReactNode {
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 0.8, ease: easeOut }}
       >
-        <h2 className="max-w-3xl text-3xl font-medium tracking-tight md:text-5xl lg:text-6xl">
-          Turn Hours of Content <br />
-          Into Fast Insight
+        <h2
+          className="max-w-3xl text-3xl font-normal tracking-tight md:text-5xl lg:text-6xl"
+          style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+        >
+          One fresh layer between your skin and yesterday.
         </h2>
         <motion.a
-          href="#"
-          className="bg-accent group mt-8 inline-flex w-full items-center justify-center gap-3 rounded-md py-3 pl-5 pr-3 font-medium text-black shadow-lg shadow-accent/25 transition-all duration-500 ease-out hover:rounded-[50px] hover:shadow-xl hover:shadow-accent/40 sm:w-auto"
+          href="#how-it-works"
+          className="bg-foreground text-background group mt-8 inline-flex w-full items-center justify-center gap-3 rounded-md py-3 pl-5 pr-3 font-medium shadow-lg shadow-foreground/10 transition-all duration-500 ease-out hover:rounded-[50px] sm:w-auto"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.6, ease: easeOut, delay: 0.2 }}
         >
-          <span>Get Started Free</span>
+          <span>See how DOZE works</span>
           <span className="bg-background text-foreground flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110">
             <ChevronRightIcon className="relative left-px h-4 w-4" />
           </span>
