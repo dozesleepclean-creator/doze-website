@@ -1,4 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
-  <rect width="180" height="180" rx="40" fill="#0066FF"/>
-  <path d="M40 60h100M40 90h100M40 120h70" stroke="white" stroke-width="12" stroke-linecap="round"/>
+  <rect width="180" height="180" rx="40" fill="#F6F0E7"/>
+  <text x="42" y="132" fill="#5F7597" font-family="Georgia, Times New Roman, serif" font-size="122">d</text>
+  <text x="104" y="86" fill="#5F7597" font-family="Georgia, Times New Roman, serif" font-size="28">z</text>
+  <text x="126" y="60" fill="#5F7597" font-family="Georgia, Times New Roman, serif" font-size="24">z</text>
+  <text x="146" y="38" fill="#5F7597" font-family="Georgia, Times New Roman, serif" font-size="20">z</text>
 </svg>
