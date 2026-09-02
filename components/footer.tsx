@@ -4,6 +4,7 @@ import { ChevronRightIcon, Instagram, Mail, Moon } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { DozeWordmark } from "./doze-wordmark";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
 
@@ -24,20 +25,6 @@ const connectLinks = [
   { label: "Contact", href: "mailto:hello@dozesleepclean.com" },
   { label: "Launch List", href: "mailto:hello@dozesleepclean.com?subject=DOZE%20Launch%20List" },
 ];
-
-function DozeWordmark(): ReactNode {
-  return (
-    <span
-      className="relative inline-block pr-7 text-6xl font-normal tracking-[0.18em] md:text-7xl"
-      style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
-    >
-      doze
-      <span className="absolute right-0 top-0 text-[0.16em] tracking-normal">z</span>
-      <span className="absolute right-[-0.15em] top-[-0.62em] text-[0.14em] tracking-normal">z</span>
-      <span className="absolute right-[-0.34em] top-[-1.2em] text-[0.12em] tracking-normal">z</span>
-    </span>
-  );
-}
 
 export function Footer(): ReactNode {
   return (
@@ -101,7 +88,7 @@ export function Footer(): ReactNode {
 
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
           <motion.div {...fadeInUp}>
-            <DozeWordmark />
+            <DozeWordmark size="footer" />
             <p className="text-background/55 mt-5 text-xs font-medium tracking-[0.24em] uppercase">
               Sleep clean
             </p>
