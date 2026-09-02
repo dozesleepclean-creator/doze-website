@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon, Instagram, Mail, Moon } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -14,66 +14,46 @@ const fadeInUp = {
   transition: { duration: 0.8, ease: easeOut },
 };
 
-const productLinks = [
-  { label: "Chrome Extension", href: "#" },
-  { label: "Safari Extension", href: "#" },
-  { label: "API Access", href: "#" },
-  { label: "Enterprise", href: "#" },
+const exploreLinks = [
+  { label: "How It Works", href: "#how-it-works" },
+  { label: "Why DOZE", href: "#main-content" },
+  { label: "FAQ", href: "#faq" },
 ];
 
-const companyLinks = [
-  { label: "About", href: "#" },
-  { label: "Blog", href: "#" },
-  { label: "Careers", href: "#" },
-  { label: "Contact", href: "#" },
+const connectLinks = [
+  { label: "Contact", href: "mailto:hello@dozesleepclean.com" },
+  { label: "Launch List", href: "mailto:hello@dozesleepclean.com?subject=DOZE%20Launch%20List" },
 ];
 
-const socialLinks = [
-  { label: "Twitter", icon: TwitterIcon, href: "#" },
-  { label: "LinkedIn", icon: LinkedInIcon, href: "#" },
-  { label: "GitHub", icon: GitHubIcon, href: "#" },
-];
-
-function TwitterIcon({ className }: { className?: string }): ReactNode {
+function DozeWordmark(): ReactNode {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </svg>
-  );
-}
-
-function LinkedInIcon({ className }: { className?: string }): ReactNode {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-    </svg>
-  );
-}
-
-function GitHubIcon({ className }: { className?: string }): ReactNode {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-    </svg>
+    <span
+      className="relative inline-block pr-7 text-6xl font-normal tracking-[0.18em] md:text-7xl"
+      style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+    >
+      doze
+      <span className="absolute right-0 top-0 text-[0.16em] tracking-normal">z</span>
+      <span className="absolute right-[-0.15em] top-[-0.62em] text-[0.14em] tracking-normal">z</span>
+      <span className="absolute right-[-0.34em] top-[-1.2em] text-[0.12em] tracking-normal">z</span>
+    </span>
   );
 }
 
 export function Footer(): ReactNode {
   return (
-    <footer className="bg-accent px-6 py-16 text-black md:px-12 lg:px-20 rounded-tr-4xl rounded-tl-4xl">
+    <footer className="bg-foreground text-background rounded-tr-4xl rounded-tl-4xl px-6 py-16 md:px-12 lg:px-20">
       <div className="mx-auto max-w-6xl">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
-          <motion.div className="max-w-md" {...fadeInUp}>
-            <p className="text-lg leading-relaxed text-black/80">
-              Ready to read smarter? TLDR transforms any article into a concise summary,
-              helping you stay informed without the time commitment.
+          <motion.div className="max-w-lg" {...fadeInUp}>
+            <p className="text-background/75 text-lg leading-relaxed">
+              A fresh pillow surface for the nights you want your routine to feel a little cleaner, calmer, and easier.
             </p>
             <Link
-              href="#"
-              className="group mt-8 inline-flex items-center gap-3 rounded-md bg-white py-3 pl-4 pr-3 font-medium shadow-lg shadow-black/10 transition-all duration-500 ease-out hover:rounded-[50px] hover:bg-white/90 hover:shadow-xl hover:shadow-black/20"
+              href="mailto:hello@dozesleepclean.com?subject=DOZE%20Launch%20List"
+              className="group mt-8 inline-flex items-center gap-3 rounded-md bg-background py-3 pl-4 pr-3 font-medium text-foreground transition-all duration-500 ease-out hover:rounded-[50px]"
             >
-              <span>Get Started Free</span>
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-black transition-all duration-300 group-hover:scale-110">
+              <span>Join the launch list</span>
+              <span className="bg-accent text-foreground flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110">
                 <ChevronRightIcon className="h-4 w-4 relative left-px" />
               </span>
             </Link>
@@ -81,15 +61,15 @@ export function Footer(): ReactNode {
 
           <div className="grid grid-cols-2 gap-8 lg:justify-items-end">
             <motion.div {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.1 }}>
-              <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-black/50">
-                Product
+              <h4 className="text-background/45 mb-4 text-sm font-semibold uppercase tracking-wider">
+                Explore
               </h4>
               <ul className="space-y-3">
-                {productLinks.map((link) => (
+                {exploreLinks.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="inline-block text-black/80 transition-all duration-300 hover:translate-x-1 hover:text-black"
+                      className="text-background/75 hover:text-background inline-block transition-all duration-300 hover:translate-x-1"
                     >
                       {link.label}
                     </Link>
@@ -98,15 +78,15 @@ export function Footer(): ReactNode {
               </ul>
             </motion.div>
             <motion.div {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.2 }}>
-              <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-black/50">
-                Company
+              <h4 className="text-background/45 mb-4 text-sm font-semibold uppercase tracking-wider">
+                Connect
               </h4>
               <ul className="space-y-3">
-                {companyLinks.map((link) => (
+                {connectLinks.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="inline-block text-black/80 transition-all duration-300 hover:translate-x-1 hover:text-black"
+                      className="text-background/75 hover:text-background inline-block transition-all duration-300 hover:translate-x-1"
                     >
                       {link.label}
                     </Link>
@@ -117,51 +97,54 @@ export function Footer(): ReactNode {
           </div>
         </div>
 
-        <div className="my-16 h-px bg-black/10" />
+        <div className="bg-background/10 my-16 h-px" />
 
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
           <motion.div {...fadeInUp}>
-            <h2 className="text-6xl font-medium leading-none tracking-tight md:text-7xl lg:text-8xl">
-              Reach
-              <br />
-              Out To Us
-            </h2>
-            <p className="mt-8 text-sm text-black/50">
-              © {new Date().getFullYear()} TLDR Technologies Inc.
+            <DozeWordmark />
+            <p className="text-background/55 mt-5 text-xs font-medium tracking-[0.24em] uppercase">
+              Sleep clean
+            </p>
+            <p className="text-background/45 mt-8 text-sm">
+              © {new Date().getFullYear()} DOZE. All rights reserved.
             </p>
           </motion.div>
 
           <div className="flex flex-col justify-between gap-8 lg:items-end lg:text-right">
-            <motion.div className="space-y-6" {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.1 }}>
-              <div>
-                <h4 className="mb-1 font-semibold">San Francisco</h4>
-                <p className="text-black/70">
-                  548 Market St, Suite 95000
-                  <br />
-                  San Francisco, CA 94104
-                  <br />
-                  Mon-Fri 9:00 am - 6:00 pm (PST)
-                </p>
-              </div>
+            <motion.div className="space-y-5" {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.1 }}>
+              <p className="text-background/70 max-w-md leading-relaxed">
+                Sleep cleaner. Wake clearer. A simpler nightly reset for people who care what their skin rests on.
+              </p>
               <a
-                href="mailto:hello@tldr.app"
+                href="mailto:hello@dozesleepclean.com"
                 className="inline-block text-lg font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
               >
-                hello@tldr.app
+                hello@dozesleepclean.com
               </a>
             </motion.div>
 
             <motion.div className="flex items-center gap-4 lg:justify-end" {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.2 }}>
-              {socialLinks.map(({ label, icon: Icon, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-black/10 text-black transition-all duration-300 hover:scale-110 hover:bg-black hover:text-accent"
-                  aria-label={label}
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
+              <a
+                href="#"
+                className="bg-background/10 text-background hover:bg-background hover:text-foreground flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 hover:scale-110"
+                aria-label="Instagram"
+              >
+                <Instagram className="h-4 w-4" />
+              </a>
+              <a
+                href="mailto:hello@dozesleepclean.com"
+                className="bg-background/10 text-background hover:bg-background hover:text-foreground flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 hover:scale-110"
+                aria-label="Email DOZE"
+              >
+                <Mail className="h-4 w-4" />
+              </a>
+              <a
+                href="#how-it-works"
+                className="bg-background/10 text-background hover:bg-background hover:text-foreground flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 hover:scale-110"
+                aria-label="Learn about DOZE"
+              >
+                <Moon className="h-4 w-4" />
+              </a>
             </motion.div>
           </div>
         </div>
