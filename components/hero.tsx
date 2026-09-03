@@ -7,7 +7,6 @@ import DitherCursor from "./dither-cursor";
 import RotatingCards, { type Card } from "./rotating-cards";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
-const headlineLines = ["Sleep clean.", "Wake clearer."];
 
 const cardData = [
   { label: "DOZE identity", position: "0% 0%" },
@@ -111,54 +110,48 @@ export function Hero(): ReactNode {
       )}
 
       <div ref={headlineRef} className="relative z-10 mx-auto max-w-5xl text-center">
-        <p className="text-muted-foreground mb-5 text-xs font-medium tracking-[0.28em] uppercase md:text-sm">
-          Disposable pillow liners
-        </p>
-        <h1
-          className="mb-8 text-5xl font-normal leading-[0.98] tracking-[-0.035em] md:text-8xl lg:text-8xl"
-          style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: easeOut }}
+          className="text-muted-foreground mb-5 text-xs font-medium tracking-[0.28em] uppercase md:text-sm"
         >
-          {headlineLines.map((line, lineIndex) => (
-            <span key={line} className={`block ${lineIndex === 1 ? "mt-2 md:mt-3" : ""}`}>
-              {line.split("").map((char, charIndex) => {
-                const animationIndex =
-                  headlineLines
-                    .slice(0, lineIndex)
-                    .reduce((total, previousLine) => total + previousLine.length, 0) +
-                  charIndex;
+          Disposable pillow liners
+        </motion.p>
 
-                return (
-                  <motion.span
-                    key={`${lineIndex}-${charIndex}`}
-                    initial={{ opacity: 0, filter: "blur(10px)" }}
-                    animate={{ opacity: 1, filter: "blur(0px)" }}
-                    transition={{
-                      duration: 0.4,
-                      delay: animationIndex * 0.03,
-                      ease: "easeOut",
-                    }}
-                    className="inline-block"
-                    style={{ whiteSpace: char === " " ? "pre" : "normal" }}
-                  >
-                    {char}
-                  </motion.span>
-                );
-              })}
-            </span>
-          ))}
-        </h1>
+        <motion.h1
+          initial={{ opacity: 0, y: 28, filter: "blur(8px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 0.8, delay: 0.1, ease: easeOut }}
+          className="mb-8 flex flex-wrap items-baseline justify-center gap-x-[0.18em] text-6xl leading-[0.92] tracking-[-0.065em] md:text-8xl lg:text-[7rem]"
+          style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
+        >
+          <span className="text-brand-blue-deep font-bold">Sleep</span>
+          <span className="text-brand-blue font-light italic">Clean.</span>
+        </motion.h1>
+
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
-          className="text-muted-foreground mx-auto mt-6 max-w-2xl text-xl leading-relaxed tracking-tight md:text-2xl"
+          transition={{ duration: 0.8, delay: 0.35, ease: easeOut }}
+          className="text-muted-foreground mx-auto max-w-2xl text-xl leading-relaxed tracking-tight md:text-2xl"
         >
-          A fresh sleep surface each night, without changing your pillowcase every day.
-          DOZE makes a cleaner-feeling bedtime routine simple.
+          A fresh pillow surface every night — without extra laundry.
         </motion.p>
+
+        <motion.a
+          href="#shop"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.55, ease: easeOut }}
+          className="bg-brand-blue hover:bg-brand-blue-deep mt-8 inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-medium text-white shadow-lg shadow-brand-blue-deep/10 transition-colors"
+        >
+          Shop DOZE
+        </motion.a>
       </div>
 
       <div
+        id="shop"
         className="relative -mx-6 mt-4 h-100 w-screen overflow-hidden sm:h-125 md:h-137.5 lg:h-150 xl:h-175"
         style={{
           maskImage:
