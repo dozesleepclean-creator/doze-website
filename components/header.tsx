@@ -4,7 +4,6 @@ import { ArrowUpRight, Instagram, Mail } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import React, { useState, useSyncExternalStore, type ReactNode } from "react";
-import { DozeWordmark } from "./doze-wordmark";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
 const easeInOut = [0.65, 0, 0.35, 1] as const;
@@ -33,9 +32,9 @@ const menuCards = [
     id: "shop",
     title: "SHOP",
     links: [
-      { label: "30 Liner Box", href: "#", badge: null },
-      { label: "Travel Pack", href: "#", badge: null },
-      { label: "Trial Pack", href: "#", badge: null },
+      { label: "30 Liner Box", href: "#shop", badge: null },
+      { label: "Travel Pack", href: "#shop", badge: null },
+      { label: "Trial Pack", href: "#shop", badge: null },
     ],
   },
   {
@@ -227,7 +226,7 @@ export function Header(): ReactNode {
         transition={{ duration: 0.8, delay: 0.3, ease: easeOut }}
       >
         <motion.nav
-          className="bg-foreground border-background/10 flex max-w-6xl flex-col overflow-hidden rounded-md border shadow-2xl/20"
+          className="bg-brand-ivory border-brand-blue/15 flex max-w-6xl flex-col overflow-hidden rounded-md border shadow-xl shadow-brand-blue-deep/10"
           initial={false}
           animate={{
             width: isMenuOpen ? "100%" : hasScrolled ? "56rem" : "42rem",
@@ -235,12 +234,17 @@ export function Header(): ReactNode {
           transition={{ ...spring, delay: isMenuOpen ? 0 : 0.15 }}
         >
           <div className="flex w-full items-center justify-between py-2 pr-2 pl-4">
-            <Link href="/" aria-label="DOZE home" className="text-background">
-              <DozeWordmark size="nav" />
+            <Link
+              href="/"
+              aria-label="DOZE home"
+              className="text-brand-blue-deep text-[2.45rem] font-bold leading-none tracking-[-0.08em]"
+              style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
+            >
+              doze
             </Link>
 
             <button
-              className="text-background/80 hover:text-background flex h-full cursor-pointer items-center gap-2 rounded-[3.5px] px-2 transition-colors hover:bg-white/10"
+              className="text-brand-blue-deep hover:bg-brand-blue-soft/25 flex h-full cursor-pointer items-center gap-2 rounded-[3.5px] px-2 transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-expanded={isMenuOpen}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
