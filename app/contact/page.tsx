@@ -47,8 +47,8 @@ const contactItems: ContactItem[] = [
   },
   {
     label: "TikTok",
-    value: "@dozesleepclean",
-    href: "https://www.tiktok.com/@dozesleepclean",
+    value: "@sleepwithdoze",
+    href: "https://www.tiktok.com/@sleepwithdoze",
     icon: Music2,
     external: true,
   },
