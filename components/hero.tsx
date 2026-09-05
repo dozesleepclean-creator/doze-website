@@ -147,7 +147,7 @@ export function Hero(): ReactNode {
           className="mb-8 flex flex-wrap items-baseline justify-center gap-x-[0.18em] text-6xl leading-[0.92] tracking-[-0.065em] md:text-8xl lg:text-[7rem]"
           style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
         >
-          <span className="text-brand-blue-deep font-bold">Sleep</span>
+          <span className="text-brand-blue-deep font-semibold">Sleep</span>
           <span className="text-brand-blue font-light italic">Clean.</span>
         </motion.h1>
 
