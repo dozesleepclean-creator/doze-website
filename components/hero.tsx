@@ -284,8 +284,7 @@ export function Hero(): ReactNode {
           className="max-w-3xl text-3xl font-normal tracking-tight md:text-5xl lg:text-6xl"
           style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
         >
-          <span className="block">Clean sleep.</span>
-          <span className="mt-1 block md:mt-2">Clearer mornings.</span>
+          Your nightly reset starts here.
         </h2>
         <motion.a
           href="#how-it-works"
