@@ -2,9 +2,9 @@
 
 import {
   ChevronRightIcon,
-  Feather,
+  Cloud,
   Plane,
-  Sparkles,
+  Sparkle,
   type LucideIcon,
 } from "lucide-react";
 import { motion } from "motion/react";
@@ -25,14 +25,14 @@ const features: Feature[] = [
     title: "A fresh surface, nightly",
     description:
       "Your pillow collects yesterday. DOZE gives you a simple way to start each night on a fresh disposable layer.",
-    icon: Sparkles,
+    icon: Sparkle,
   },
   {
     number: "02",
     title: "Soft enough for sleep",
     description:
       "Designed around a soft, lightweight feel so your cleaner bedtime routine still feels like bedtime.",
-    icon: Feather,
+    icon: Cloud,
   },
   {
     number: "03",
