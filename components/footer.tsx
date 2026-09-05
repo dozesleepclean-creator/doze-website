@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRightIcon, Instagram, Mail, Moon } from "lucide-react";
+import { ChevronRightIcon, Instagram, Mail, Phone } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -22,8 +22,9 @@ const exploreLinks = [
 ];
 
 const connectLinks = [
-  { label: "Contact", href: "mailto:hello@dozesleepclean.com" },
-  { label: "Launch List", href: "mailto:hello@dozesleepclean.com?subject=DOZE%20Launch%20List" },
+  { label: "Email", href: "mailto:dozesleepclean@gmail.com" },
+  { label: "Phone", href: "tel:+14074055512" },
+  { label: "Instagram", href: "https://www.instagram.com/dozesleepclean/" },
 ];
 
 export function Footer(): ReactNode {
@@ -36,7 +37,7 @@ export function Footer(): ReactNode {
               A fresh pillow surface for the nights you want your routine to feel a little cleaner, calmer, and easier.
             </p>
             <Link
-              href="mailto:hello@dozesleepclean.com?subject=DOZE%20Launch%20List"
+              href="mailto:dozesleepclean@gmail.com?subject=DOZE%20Launch%20List"
               className="group mt-8 inline-flex items-center gap-3 rounded-md bg-background py-3 pl-4 pr-3 font-medium text-foreground transition-all duration-500 ease-out hover:rounded-[50px]"
             >
               <span>Join the launch list</span>
@@ -71,12 +72,12 @@ export function Footer(): ReactNode {
               <ul className="space-y-3">
                 {connectLinks.map((link) => (
                   <li key={link.label}>
-                    <Link
+                    <a
                       href={link.href}
                       className="text-background/75 hover:text-background inline-block transition-all duration-300 hover:translate-x-1"
                     >
                       {link.label}
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -98,39 +99,51 @@ export function Footer(): ReactNode {
           </motion.div>
 
           <div className="flex flex-col justify-between gap-8 lg:items-end lg:text-right">
-            <motion.div className="space-y-5" {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.1 }}>
+            <motion.div className="space-y-3" {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.1 }}>
               <p className="text-background/70 max-w-md leading-relaxed">
                 Sleep cleaner. Wake clearer. A simpler nightly reset for people who care what their skin rests on.
               </p>
               <a
-                href="mailto:hello@dozesleepclean.com"
-                className="inline-block text-lg font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
+                href="mailto:dozesleepclean@gmail.com"
+                className="block text-lg font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
               >
-                hello@dozesleepclean.com
+                dozesleepclean@gmail.com
+              </a>
+              <a
+                href="tel:+14074055512"
+                className="block text-base text-background/75 transition-opacity hover:opacity-70"
+              >
+                407-405-5512
+              </a>
+              <a
+                href="https://www.instagram.com/dozesleepclean/"
+                className="block text-base text-background/75 transition-opacity hover:opacity-70"
+              >
+                @dozesleepclean
               </a>
             </motion.div>
 
             <motion.div className="flex items-center gap-4 lg:justify-end" {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.2 }}>
               <a
-                href="#"
+                href="https://www.instagram.com/dozesleepclean/"
                 className="bg-background/10 text-background hover:bg-background hover:text-foreground flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 hover:scale-110"
                 aria-label="Instagram"
               >
                 <Instagram className="h-4 w-4" />
               </a>
               <a
-                href="mailto:hello@dozesleepclean.com"
+                href="mailto:dozesleepclean@gmail.com"
                 className="bg-background/10 text-background hover:bg-background hover:text-foreground flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 hover:scale-110"
                 aria-label="Email DOZE"
               >
                 <Mail className="h-4 w-4" />
               </a>
               <a
-                href="#how-it-works"
+                href="tel:+14074055512"
                 className="bg-background/10 text-background hover:bg-background hover:text-foreground flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 hover:scale-110"
-                aria-label="Learn about DOZE"
+                aria-label="Call DOZE"
               >
-                <Moon className="h-4 w-4" />
+                <Phone className="h-4 w-4" />
               </a>
             </motion.div>
           </div>
