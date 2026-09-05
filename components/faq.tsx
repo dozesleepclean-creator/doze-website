@@ -149,7 +149,7 @@ export function FAQ(): ReactNode {
             Something else on your mind? We would love to hear from you.
           </p>
           <a
-            href="mailto:hello@dozesleepclean.com"
+            href="/contact"
             className="group inline-flex items-center gap-3 rounded-md bg-background py-3 pl-5 pr-3 font-medium text-foreground shadow-lg transition-all duration-500 ease-out hover:rounded-[50px]"
           >
             <span>Contact DOZE</span>
