@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, Instagram, Mail } from "lucide-react";
+import { ArrowUpRight, Instagram, Mail, Phone } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import React, { useState, useSyncExternalStore, type ReactNode } from "react";
@@ -11,8 +11,9 @@ const spring = { type: "spring", stiffness: 100, damping: 20, mass: 1 } as const
 const DESKTOP_BREAKPOINT = 700;
 
 const socialLinks = [
-  { label: "Instagram", icon: Instagram, href: "#" },
-  { label: "Email", icon: Mail, href: "mailto:hello@dozesleepclean.com" },
+  { label: "Instagram", icon: Instagram, href: "https://www.instagram.com/dozesleepclean/" },
+  { label: "Email", icon: Mail, href: "mailto:dozesleepclean@gmail.com" },
+  { label: "Phone", icon: Phone, href: "tel:+14074055512" },
 ];
 
 function useIsDesktop(): boolean {
@@ -97,11 +98,17 @@ function MenuCard({ card }: { card: (typeof menuCards)[number] }): ReactNode {
               Questions before bedtime?
             </p>
             <Link
-              href="mailto:hello@dozesleepclean.com"
-              className="text-background/75 hover:text-background mt-4 inline-block text-sm transition-colors"
+              href="mailto:dozesleepclean@gmail.com"
+              className="text-background/75 hover:text-background mt-4 block text-sm transition-colors"
             >
-              hello@dozesleepclean.com
+              dozesleepclean@gmail.com
             </Link>
+            <a
+              href="tel:+14074055512"
+              className="text-background/75 hover:text-background mt-2 block text-sm transition-colors"
+            >
+              407-405-5512
+            </a>
           </div>
           <div className="mt-auto flex items-center gap-4 pt-8">
             {socialLinks.map(({ label, icon: Icon, href }) => (
@@ -156,13 +163,13 @@ function MobileActions(): ReactNode {
       }}
     >
       <Link
-        href="mailto:hello@dozesleepclean.com"
+        href="mailto:dozesleepclean@gmail.com"
         className="text-background rounded-[3.5px] bg-background/10 px-6 py-3 text-base font-medium tracking-tight transition-colors hover:bg-background/15"
       >
         Contact
       </Link>
       <Link
-        href="mailto:hello@dozesleepclean.com?subject=DOZE%20Launch%20List"
+        href="mailto:dozesleepclean@gmail.com?subject=DOZE%20Launch%20List"
         className="group bg-accent text-foreground relative rounded-[3.5px] px-6 py-3 text-base font-medium tracking-tight transition-all duration-500 hover:rounded-[50px]"
       >
         Join Launch List
