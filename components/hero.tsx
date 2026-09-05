@@ -1,7 +1,7 @@
 "use client";
 
-import { ChevronRight as ChevronRightIcon } from "lucide-react";
-import { motion } from "motion/react";
+import { ChevronRight as ChevronRightIcon, X } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import DitherCursor from "./dither-cursor";
 import RotatingCards, { type Card } from "./rotating-cards";
@@ -9,12 +9,36 @@ import RotatingCards, { type Card } from "./rotating-cards";
 const easeOut = [0.16, 1, 0.3, 1] as const;
 
 const cardData = [
-  { label: "DOZE identity", position: "0% 0%" },
-  { label: "Nightly ritual", position: "50% 0%" },
-  { label: "Liner texture", position: "100% 0%" },
-  { label: "Fresh sleep surface", position: "0% 100%" },
-  { label: "Deep sleep. Clean mornings.", position: "50% 100%" },
-  { label: "30 liner box", position: "100% 100%" },
+  {
+    title: "Naturally Soft",
+    description:
+      "Made with soft, breathable bamboo lyocell for a comfortable night's sleep.",
+    position: "50% 0%",
+  },
+  {
+    title: "A Fresh Surface, Nightly",
+    description:
+      "Enjoy a clean layer between your face and pillow every night.",
+    position: "0% 100%",
+  },
+  {
+    title: "Designed for Clearer Mornings",
+    description:
+      "Helps reduce contact with the oil, sweat, and buildup left behind on pillowcases.",
+    position: "50% 100%",
+  },
+  {
+    title: "Made with Plant-Based Fibers",
+    description:
+      "Crafted from responsibly sourced lyocell derived from bamboo and wood fibers.",
+    position: "100% 0%",
+  },
+  {
+    title: "Inspired by Real Skin Struggles",
+    description:
+      "DOZE was created to make sleeping cleaner feel simple—without doing laundry all the time.",
+    position: "100% 100%",
+  },
 ];
 
 const carouselCards: Card[] = cardData.map((card, index) => ({
@@ -22,18 +46,18 @@ const carouselCards: Card[] = cardData.map((card, index) => ({
   content: (
     <div className="flex h-full flex-col p-2">
       <div
-        className="border-border/60 min-h-0 flex-1 rounded-t-lg rounded-b-[2.5rem] border bg-cover bg-no-repeat shadow-sm"
+        className="border-border/60 min-h-0 flex-1 rounded-xl border bg-cover bg-no-repeat shadow-sm"
         style={{
           backgroundImage: 'url("/img/doze-carousel-sprite.webp")',
           backgroundSize: "300% 200%",
           backgroundPosition: card.position,
         }}
         role="img"
-        aria-label={card.label}
+        aria-label={card.title}
       />
-      <div className="px-2 pb-1 pt-3 text-center">
-        <span className="text-foreground text-xs font-medium tracking-[0.12em] uppercase">
-          {card.label}
+      <div className="flex min-h-11 items-center justify-center px-2 pt-2 text-center">
+        <span className="text-foreground text-[0.65rem] font-medium tracking-[0.12em] uppercase leading-snug">
+          {card.title}
         </span>
       </div>
     </div>
@@ -47,8 +71,11 @@ export function Hero(): ReactNode {
   const [shouldRender, setShouldRender] = useState(false);
   const [opacity, setOpacity] = useState(0);
   const [isMobile, setIsMobile] = useState(true);
+  const [activeFact, setActiveFact] = useState<number | null>(null);
   const opacityRef = useRef(0);
   const animationRef = useRef<number | null>(null);
+
+  const activeCard = activeFact === null ? null : cardData[activeFact];
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -152,28 +179,33 @@ export function Hero(): ReactNode {
 
       <div
         id="shop"
-        className="relative -mx-6 mt-4 h-100 w-screen overflow-hidden sm:h-125 md:h-137.5 lg:h-150 xl:h-175"
+        className="relative -mx-6 mt-4 h-[22rem] w-screen overflow-hidden sm:h-[28rem] md:h-[32rem] lg:h-[36rem] xl:h-[40rem]"
         style={{
           maskImage:
-            "linear-gradient(to bottom, black 0%, black 60%, transparent 100%)",
+            "linear-gradient(to bottom, black 0%, black 72%, transparent 100%)",
           WebkitMaskImage:
-            "linear-gradient(to bottom, black 0%, black 60%, transparent 100%)",
+            "linear-gradient(to bottom, black 0%, black 72%, transparent 100%)",
         }}
       >
-        <div className="absolute left-1/2 top-25 -translate-x-1/2 sm:top-30 lg:top-35 xl:top-40">
-          <div className="origin-top scale-[0.6] lg:scale-[0.7] xl:scale-100">
+        <p className="text-muted-foreground absolute left-1/2 top-4 z-20 -translate-x-1/2 text-[0.65rem] font-medium tracking-[0.2em] uppercase">
+          Click a card to learn more
+        </p>
+
+        <div className="absolute left-1/2 top-10 -translate-x-1/2 sm:top-12 lg:top-14 xl:top-16">
+          <div className="origin-top scale-[0.72] md:scale-[0.78] lg:scale-[0.88] xl:scale-100">
             <RotatingCards
               cards={carouselCards}
-              radius={1000}
-              cardClassName="rounded-xl bg-brand-ivory border border-border/60 shadow-sm"
-              cardWidth={350}
-              cardHeight={275}
+              radius={660}
+              cardClassName="rounded-2xl bg-brand-ivory border border-border/60 shadow-lg shadow-brand-blue-deep/10"
+              cardWidth={300}
+              cardHeight={240}
               duration={110}
               pauseOnHover={true}
-              autoPlay={true}
+              autoPlay={activeFact === null}
               initialRotation={-90}
               showTrackLine={true}
-              trackLineOffset={25}
+              trackLineOffset={18}
+              onCardClick={(_, index) => setActiveFact(index)}
             />
           </div>
         </div>
@@ -190,7 +222,8 @@ export function Hero(): ReactNode {
           className="max-w-3xl text-3xl font-normal tracking-tight md:text-5xl lg:text-6xl"
           style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
         >
-          Clean sleep. Clearer mornings.
+          <span className="block">Clean sleep.</span>
+          <span className="mt-1 block md:mt-2">Clearer mornings.</span>
         </h2>
         <motion.a
           href="#how-it-works"
@@ -206,6 +239,53 @@ export function Hero(): ReactNode {
           </span>
         </motion.a>
       </motion.div>
+
+      <AnimatePresence>
+        {activeCard && (
+          <motion.div
+            className="bg-brand-blue-deep/20 fixed inset-0 z-[90] flex items-center justify-center px-6 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={() => setActiveFact(null)}
+          >
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-label={activeCard.title}
+              className="bg-brand-ivory border-border relative w-full max-w-md rounded-3xl border p-8 text-left shadow-2xl shadow-brand-blue-deep/20 md:p-10"
+              initial={{ opacity: 0, scale: 0.94, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 12 }}
+              transition={{ duration: 0.3, ease: easeOut }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setActiveFact(null)}
+                className="text-brand-blue-deep/60 hover:text-brand-blue-deep hover:bg-brand-blue-soft/20 absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full transition-colors"
+                aria-label="Close fact"
+              >
+                <X className="h-4 w-4" />
+              </button>
+
+              <p className="text-muted-foreground mb-4 text-xs font-medium tracking-[0.24em] uppercase">
+                DOZE fact {String(activeFact + 1).padStart(2, "0")}
+              </p>
+              <h3
+                className="text-brand-blue-deep pr-8 text-3xl font-normal tracking-tight md:text-4xl"
+                style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+              >
+                {activeCard.title}
+              </h3>
+              <p className="text-muted-foreground mt-5 text-lg leading-relaxed">
+                {activeCard.description}
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
