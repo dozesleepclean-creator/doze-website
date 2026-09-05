@@ -7,6 +7,51 @@ import DitherCursor from "./dither-cursor";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
 
+type CardFontMode = "clean" | "editorial" | "soft" | "minimal";
+
+const fontOptions: { id: CardFontMode; label: string }[] = [
+  { id: "clean", label: "Clean Sans" },
+  { id: "editorial", label: "Editorial Serif" },
+  { id: "soft", label: "Soft Serif" },
+  { id: "minimal", label: "Minimal Lowercase" },
+];
+
+const cardFontStyles = {
+  clean: {
+    fontFamily: "Arial, Helvetica, sans-serif",
+    fontSize: "0.68rem",
+    fontWeight: 500,
+    letterSpacing: "0.12em",
+    textTransform: "uppercase" as const,
+    lineHeight: 1.25,
+  },
+  editorial: {
+    fontFamily: 'Georgia, "Times New Roman", serif',
+    fontSize: "0.92rem",
+    fontWeight: 400,
+    letterSpacing: "-0.015em",
+    textTransform: "none" as const,
+    lineHeight: 1.18,
+  },
+  soft: {
+    fontFamily: 'Georgia, "Times New Roman", serif',
+    fontSize: "0.88rem",
+    fontWeight: 400,
+    fontStyle: "italic" as const,
+    letterSpacing: "0.015em",
+    textTransform: "none" as const,
+    lineHeight: 1.22,
+  },
+  minimal: {
+    fontFamily: "Arial, Helvetica, sans-serif",
+    fontSize: "0.78rem",
+    fontWeight: 500,
+    letterSpacing: "0.025em",
+    textTransform: "lowercase" as const,
+    lineHeight: 1.25,
+  },
+};
+
 const cardData = [
   {
     title: "Naturally Soft",
@@ -61,10 +106,13 @@ export function Hero(): ReactNode {
   const [opacity, setOpacity] = useState(0);
   const [isMobile, setIsMobile] = useState(true);
   const [activeFact, setActiveFact] = useState<number | null>(null);
+  const [cardFontMode, setCardFontMode] =
+    useState<CardFontMode>("editorial");
   const opacityRef = useRef(0);
   const animationRef = useRef<number | null>(null);
 
   const activeCard = activeFact === null ? null : cardData[activeFact];
+  const cardTitleStyle = cardFontStyles[cardFontMode];
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -175,9 +223,28 @@ export function Hero(): ReactNode {
         id="shop"
         className="relative -mx-6 mt-10 w-screen overflow-hidden pb-10 pt-9 md:mt-12 md:pb-14"
       >
-        <p className="text-muted-foreground mb-4 text-center text-[0.65rem] font-medium tracking-[0.2em] uppercase">
-          Click a card to learn more
-        </p>
+        <div className="mb-4 flex flex-col items-center gap-3 px-6">
+          <p className="text-muted-foreground text-center text-[0.65rem] font-medium tracking-[0.2em] uppercase">
+            Click a card to learn more · try a font
+          </p>
+          <div className="border-border/60 bg-brand-ivory/85 flex max-w-full flex-wrap items-center justify-center gap-1.5 rounded-full border p-1.5 shadow-sm backdrop-blur-sm">
+            {fontOptions.map((option) => (
+              <button
+                key={option.id}
+                type="button"
+                onClick={() => setCardFontMode(option.id)}
+                className={`rounded-full px-3 py-2 text-[0.66rem] font-medium transition-all sm:px-4 sm:text-xs ${
+                  cardFontMode === option.id
+                    ? "bg-brand-blue-deep text-white shadow-sm"
+                    : "text-brand-blue-deep/65 hover:bg-brand-blue-soft/25 hover:text-brand-blue-deep"
+                }`}
+                aria-pressed={cardFontMode === option.id}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
         <div className="relative mx-auto h-[29rem] w-screen overflow-hidden md:h-[36rem]">
           <svg
@@ -254,7 +321,7 @@ export function Hero(): ReactNode {
                   aria-label={card.title}
                 />
                 <div className="flex min-h-14 items-center justify-center px-2 py-3 text-center">
-                  <span className="text-foreground text-[0.64rem] font-medium leading-snug tracking-[0.12em] uppercase md:text-[0.68rem]">
+                  <span className="text-brand-blue-deep transition-all duration-300" style={cardTitleStyle}>
                     {card.title}
                   </span>
                 </div>
