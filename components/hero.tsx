@@ -40,12 +40,22 @@ const headlineFontStyles = {
 
 type HeadlineFont = keyof typeof headlineFontStyles;
 
-const headlineColors = [
-  { label: "Deep blue", value: "#5f7597" },
-  { label: "DOZE blue", value: "#7f95b5" },
-  { label: "Soft blue", value: "#9fb3cc" },
-  { label: "Taupe", value: "#7c746b" },
-];
+const headlineColorways = [
+  {
+    id: "doze",
+    label: "DOZE Blue",
+    sleep: "#5f7597",
+    clean: "#7f95b5",
+  },
+  {
+    id: "contrast",
+    label: "Black + Blue",
+    sleep: "#111111",
+    clean: "#6f89ad",
+  },
+] as const;
+
+type HeadlineColorway = (typeof headlineColorways)[number]["id"];
 
 const cardData = [
   {
@@ -103,13 +113,16 @@ export function Hero(): ReactNode {
   const [activeFact, setActiveFact] = useState<number | null>(null);
   const [isHeadlinePickerOpen, setIsHeadlinePickerOpen] = useState(false);
   const [headlineFont, setHeadlineFont] = useState<HeadlineFont>("modern");
-  const [sleepColor, setSleepColor] = useState("#5f7597");
-  const [cleanColor, setCleanColor] = useState("#7f95b5");
+  const [headlineColorway, setHeadlineColorway] =
+    useState<HeadlineColorway>("doze");
   const opacityRef = useRef(0);
   const animationRef = useRef<number | null>(null);
 
   const activeCard = activeFact === null ? null : cardData[activeFact];
   const headlineStyle = headlineFontStyles[headlineFont];
+  const activeColorway =
+    headlineColorways.find((colorway) => colorway.id === headlineColorway) ??
+    headlineColorways[0];
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -219,51 +232,36 @@ export function Hero(): ReactNode {
                   </div>
                 </div>
 
-                <div className="mt-5 grid gap-5 sm:grid-cols-2">
-                  <div>
-                    <p className="text-muted-foreground mb-2 text-[0.62rem] font-medium tracking-[0.18em] uppercase">
-                      Sleep color
-                    </p>
-                    <div className="flex gap-2">
-                      {headlineColors.map((color) => (
-                        <button
-                          key={`sleep-${color.value}`}
-                          type="button"
-                          onClick={() => setSleepColor(color.value)}
-                          aria-label={`Sleep: ${color.label}`}
-                          aria-pressed={sleepColor === color.value}
-                          className={`h-8 w-8 rounded-full border-2 transition-transform hover:scale-110 ${
-                            sleepColor === color.value
-                              ? "border-brand-blue-deep scale-110"
-                              : "border-brand-ivory ring-1 ring-border"
-                          }`}
-                          style={{ backgroundColor: color.value }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <p className="text-muted-foreground mb-2 text-[0.62rem] font-medium tracking-[0.18em] uppercase">
-                      Clean color
-                    </p>
-                    <div className="flex gap-2">
-                      {headlineColors.map((color) => (
-                        <button
-                          key={`clean-${color.value}`}
-                          type="button"
-                          onClick={() => setCleanColor(color.value)}
-                          aria-label={`Clean: ${color.label}`}
-                          aria-pressed={cleanColor === color.value}
-                          className={`h-8 w-8 rounded-full border-2 transition-transform hover:scale-110 ${
-                            cleanColor === color.value
-                              ? "border-brand-blue-deep scale-110"
-                              : "border-brand-ivory ring-1 ring-border"
-                          }`}
-                          style={{ backgroundColor: color.value }}
-                        />
-                      ))}
-                    </div>
+                <div className="mt-5">
+                  <p className="text-muted-foreground mb-2 text-[0.62rem] font-medium tracking-[0.18em] uppercase">
+                    Colorway
+                  </p>
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    {headlineColorways.map((colorway) => (
+                      <button
+                        key={colorway.id}
+                        type="button"
+                        onClick={() => setHeadlineColorway(colorway.id)}
+                        aria-pressed={headlineColorway === colorway.id}
+                        className={`flex items-center justify-between gap-3 rounded-2xl border px-3.5 py-3 text-left text-xs transition-all ${
+                          headlineColorway === colorway.id
+                            ? "border-brand-blue-deep bg-brand-blue-soft/20 text-brand-blue-deep"
+                            : "border-border/60 bg-background/55 text-muted-foreground hover:border-brand-blue-soft hover:text-brand-blue-deep"
+                        }`}
+                      >
+                        <span>{colorway.label}</span>
+                        <span className="flex items-center -space-x-1">
+                          <span
+                            className="h-6 w-6 rounded-full border-2 border-brand-ivory shadow-sm"
+                            style={{ backgroundColor: colorway.sleep }}
+                          />
+                          <span
+                            className="h-6 w-6 rounded-full border-2 border-brand-ivory shadow-sm"
+                            style={{ backgroundColor: colorway.clean }}
+                          />
+                        </span>
+                      </button>
+                    ))}
                   </div>
                 </div>
               </motion.div>
@@ -288,7 +286,7 @@ export function Hero(): ReactNode {
         >
           <span
             style={{
-              color: sleepColor,
+              color: activeColorway.sleep,
               fontFamily: headlineStyle.fontFamily,
               fontWeight: headlineStyle.sleepWeight,
             }}
@@ -297,7 +295,7 @@ export function Hero(): ReactNode {
           </span>
           <span
             style={{
-              color: cleanColor,
+              color: activeColorway.clean,
               fontFamily: headlineStyle.fontFamily,
               fontWeight: headlineStyle.cleanWeight,
               fontStyle: headlineStyle.cleanStyle,
