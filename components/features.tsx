@@ -106,7 +106,7 @@ export function Features(): ReactNode {
             className="mb-4 text-2xl font-normal tracking-tight md:mb-6 md:text-3xl lg:text-4xl"
             style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
           >
-            Cleaner-feeling sleep, without overthinking it.
+            A cleaner bedtime routine, made simple.
           </h2>
           <p className="text-muted-foreground mb-6 max-w-sm text-base md:mb-8 md:text-lg">
             DOZE was made for people who care about what their skin rests on, but do not want another complicated step in their routine.
