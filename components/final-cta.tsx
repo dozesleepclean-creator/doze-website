@@ -49,7 +49,7 @@ export function FinalCTA(): ReactNode {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1, ease: easeOut }}
           >
-            Make fresh part of your bedtime.
+            Start every night fresh.
           </motion.h2>
 
           <motion.p
