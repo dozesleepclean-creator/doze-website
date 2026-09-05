@@ -42,6 +42,8 @@ const cardData = [
 
 const cardRotations = [-4, 2, -1, 3, -3];
 const cardOffsets = [18, 0, 12, 2, 20];
+const cardFloatAmounts = [8, 10, 7, 9, 8];
+const cardDurations = [6.5, 7.2, 6.8, 7.6, 6.9];
 
 export function Hero(): ReactNode {
   const sectionRef = useRef<HTMLElement>(null);
@@ -165,7 +167,7 @@ export function Hero(): ReactNode {
           Click a card to learn more
         </p>
 
-        <div className="relative mx-auto max-w-[94rem] overflow-hidden py-5">
+        <div className="relative mx-auto max-w-[94rem] overflow-hidden py-8">
           <motion.div
             className="mx-auto flex w-max items-start gap-2 px-6 sm:gap-3 md:gap-4"
             animate={
@@ -181,38 +183,67 @@ export function Hero(): ReactNode {
             onMouseEnter={() => setIsCardRowHovered(true)}
             onMouseLeave={() => setIsCardRowHovered(false)}
           >
-            {cardData.map((card, index) => (
-              <motion.button
-                key={card.title}
-                type="button"
-                onClick={() => setActiveFact(index)}
-                className="bg-brand-ivory border-border/60 w-[12.75rem] shrink-0 overflow-hidden rounded-2xl border p-2 text-left shadow-lg shadow-brand-blue-deep/10 sm:w-[13.75rem] md:w-[14.75rem] lg:w-[15.5rem]"
-                style={{
-                  rotate: cardRotations[index],
-                  y: cardOffsets[index],
-                }}
-                whileHover={{ y: (cardOffsets[index] ?? 0) - 8, scale: 1.025 }}
-                whileTap={{ scale: 0.985 }}
-                transition={{ duration: 0.25, ease: easeOut }}
-                aria-label={`Learn more: ${card.title}`}
-              >
-                <div
-                  className="border-border/60 aspect-[4/3] w-full rounded-xl border bg-cover bg-no-repeat shadow-sm"
-                  style={{
-                    backgroundImage: 'url("/img/doze-carousel-sprite.webp")',
-                    backgroundSize: "300% 200%",
-                    backgroundPosition: card.position,
-                  }}
-                  role="img"
-                  aria-label={card.title}
-                />
-                <div className="flex min-h-14 items-center justify-center px-2 py-3 text-center">
-                  <span className="text-foreground text-[0.64rem] font-medium leading-snug tracking-[0.12em] uppercase md:text-[0.68rem]">
-                    {card.title}
-                  </span>
-                </div>
-              </motion.button>
-            ))}
+            {cardData.map((card, index) => {
+              const baseRotation = cardRotations[index] ?? 0;
+              const baseOffset = cardOffsets[index] ?? 0;
+              const floatAmount = cardFloatAmounts[index] ?? 8;
+              const duration = cardDurations[index] ?? 7;
+              const direction = index % 2 === 0 ? 1 : -1;
+
+              return (
+                <motion.button
+                  key={card.title}
+                  type="button"
+                  onClick={() => setActiveFact(index)}
+                  className="bg-brand-ivory border-border/60 w-[12.75rem] shrink-0 overflow-hidden rounded-2xl border p-2 text-left shadow-lg shadow-brand-blue-deep/10 sm:w-[13.75rem] md:w-[14.75rem] lg:w-[15.5rem]"
+                  animate={
+                    isCardRowHovered || activeFact !== null
+                      ? { y: baseOffset, rotate: baseRotation }
+                      : {
+                          y: [
+                            baseOffset,
+                            baseOffset - floatAmount,
+                            baseOffset,
+                          ],
+                          rotate: [
+                            baseRotation - 1.5 * direction,
+                            baseRotation + 1.5 * direction,
+                            baseRotation - 1.5 * direction,
+                          ],
+                        }
+                  }
+                  transition={
+                    isCardRowHovered || activeFact !== null
+                      ? { duration: 0.35, ease: easeOut }
+                      : {
+                          duration,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: index * 0.18,
+                        }
+                  }
+                  whileHover={{ y: baseOffset - 10, rotate: 0, scale: 1.035 }}
+                  whileTap={{ scale: 0.985 }}
+                  aria-label={`Learn more: ${card.title}`}
+                >
+                  <div
+                    className="border-border/60 aspect-[4/3] w-full rounded-xl border bg-cover bg-no-repeat shadow-sm"
+                    style={{
+                      backgroundImage: 'url("/img/doze-carousel-sprite.webp")',
+                      backgroundSize: "300% 200%",
+                      backgroundPosition: card.position,
+                    }}
+                    role="img"
+                    aria-label={card.title}
+                  />
+                  <div className="flex min-h-14 items-center justify-center px-2 py-3 text-center">
+                    <span className="text-foreground text-[0.64rem] font-medium leading-snug tracking-[0.12em] uppercase md:text-[0.68rem]">
+                      {card.title}
+                    </span>
+                  </div>
+                </motion.button>
+              );
+            })}
           </motion.div>
         </div>
       </div>
