@@ -4,7 +4,6 @@ import { ChevronRight as ChevronRightIcon, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import DitherCursor from "./dither-cursor";
-import RotatingCards, { type Card } from "./rotating-cards";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
 
@@ -41,28 +40,8 @@ const cardData = [
   },
 ];
 
-const carouselCards: Card[] = cardData.map((card, index) => ({
-  id: index + 1,
-  content: (
-    <div className="flex h-full flex-col p-2">
-      <div
-        className="border-border/60 min-h-0 flex-1 rounded-xl border bg-cover bg-no-repeat shadow-sm"
-        style={{
-          backgroundImage: 'url("/img/doze-carousel-sprite.webp")',
-          backgroundSize: "300% 200%",
-          backgroundPosition: card.position,
-        }}
-        role="img"
-        aria-label={card.title}
-      />
-      <div className="flex min-h-11 items-center justify-center px-2 pt-2 text-center">
-        <span className="text-foreground text-[0.65rem] font-medium tracking-[0.12em] uppercase leading-snug">
-          {card.title}
-        </span>
-      </div>
-    </div>
-  ),
-}));
+const cardRotations = [-4, 2, -1, 3, -3];
+const cardOffsets = [18, 0, 12, 2, 20];
 
 export function Hero(): ReactNode {
   const sectionRef = useRef<HTMLElement>(null);
@@ -72,6 +51,7 @@ export function Hero(): ReactNode {
   const [opacity, setOpacity] = useState(0);
   const [isMobile, setIsMobile] = useState(true);
   const [activeFact, setActiveFact] = useState<number | null>(null);
+  const [isCardRowHovered, setIsCardRowHovered] = useState(false);
   const opacityRef = useRef(0);
   const animationRef = useRef<number | null>(null);
 
@@ -179,40 +159,66 @@ export function Hero(): ReactNode {
 
       <div
         id="shop"
-        className="relative -mx-6 mt-4 h-[22rem] w-screen overflow-hidden sm:h-[28rem] md:h-[32rem] lg:h-[36rem] xl:h-[40rem]"
-        style={{
-          maskImage:
-            "linear-gradient(to bottom, black 0%, black 72%, transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to bottom, black 0%, black 72%, transparent 100%)",
-        }}
+        className="relative -mx-6 mt-10 w-screen overflow-hidden pb-12 pt-10 md:mt-12 md:pb-16"
       >
-        <p className="text-muted-foreground absolute left-1/2 top-4 z-20 -translate-x-1/2 text-[0.65rem] font-medium tracking-[0.2em] uppercase">
+        <p className="text-muted-foreground mb-7 text-center text-[0.65rem] font-medium tracking-[0.2em] uppercase">
           Click a card to learn more
         </p>
 
-        <div className="absolute left-1/2 top-10 -translate-x-1/2 sm:top-12 lg:top-14 xl:top-16">
-          <div className="origin-top scale-[0.72] md:scale-[0.78] lg:scale-[0.88] xl:scale-100">
-            <RotatingCards
-              cards={carouselCards}
-              radius={660}
-              cardClassName="rounded-2xl bg-brand-ivory border border-border/60 shadow-lg shadow-brand-blue-deep/10"
-              cardWidth={300}
-              cardHeight={240}
-              duration={110}
-              pauseOnHover={true}
-              autoPlay={activeFact === null}
-              initialRotation={-90}
-              showTrackLine={true}
-              trackLineOffset={18}
-              onCardClick={(_, index) => setActiveFact(index)}
-            />
-          </div>
+        <div className="relative mx-auto max-w-[94rem] overflow-hidden py-5">
+          <motion.div
+            className="mx-auto flex w-max items-start gap-2 px-6 sm:gap-3 md:gap-4"
+            animate={
+              isCardRowHovered || activeFact !== null
+                ? { x: 0 }
+                : { x: [-54, 54, -54] }
+            }
+            transition={
+              isCardRowHovered || activeFact !== null
+                ? { duration: 0.35, ease: easeOut }
+                : { duration: 18, repeat: Infinity, ease: "easeInOut" }
+            }
+            onMouseEnter={() => setIsCardRowHovered(true)}
+            onMouseLeave={() => setIsCardRowHovered(false)}
+          >
+            {cardData.map((card, index) => (
+              <motion.button
+                key={card.title}
+                type="button"
+                onClick={() => setActiveFact(index)}
+                className="bg-brand-ivory border-border/60 w-[12.75rem] shrink-0 overflow-hidden rounded-2xl border p-2 text-left shadow-lg shadow-brand-blue-deep/10 sm:w-[13.75rem] md:w-[14.75rem] lg:w-[15.5rem]"
+                style={{
+                  rotate: cardRotations[index],
+                  y: cardOffsets[index],
+                }}
+                whileHover={{ y: (cardOffsets[index] ?? 0) - 8, scale: 1.025 }}
+                whileTap={{ scale: 0.985 }}
+                transition={{ duration: 0.25, ease: easeOut }}
+                aria-label={`Learn more: ${card.title}`}
+              >
+                <div
+                  className="border-border/60 aspect-[4/3] w-full rounded-xl border bg-cover bg-no-repeat shadow-sm"
+                  style={{
+                    backgroundImage: 'url("/img/doze-carousel-sprite.webp")',
+                    backgroundSize: "300% 200%",
+                    backgroundPosition: card.position,
+                  }}
+                  role="img"
+                  aria-label={card.title}
+                />
+                <div className="flex min-h-14 items-center justify-center px-2 py-3 text-center">
+                  <span className="text-foreground text-[0.64rem] font-medium leading-snug tracking-[0.12em] uppercase md:text-[0.68rem]">
+                    {card.title}
+                  </span>
+                </div>
+              </motion.button>
+            ))}
+          </motion.div>
         </div>
       </div>
 
       <motion.div
-        className="relative z-10 flex flex-col items-center px-6 pb-24 text-center"
+        className="relative z-10 flex flex-col items-center px-6 pb-24 pt-4 text-center"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
