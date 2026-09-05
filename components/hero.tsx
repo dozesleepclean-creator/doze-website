@@ -40,17 +40,16 @@ const cardData = [
   },
 ];
 
-const desktopArcAngles = [-58, -29, 0, 29, 58];
-const mobileArcAngles = [-40, -20, 0, 20, 40];
-const cardRotations = [-7, -3.5, 0, 3.5, 7];
-const arcSweep = 14;
+const desktopArcAngles = [-64, -32, 0, 32, 64];
+const mobileArcAngles = [-60, -30, 0, 30, 60];
+const cardRotations = [-6, -3, 0, 3, 6];
 
 function getArcPoint(angle: number, radiusX: number, radiusY: number) {
   const radians = (angle * Math.PI) / 180;
 
   return {
     x: Math.sin(radians) * radiusX,
-    y: Math.cos(radians) * radiusY,
+    y: -Math.cos(radians) * radiusY,
   };
 }
 
@@ -118,8 +117,9 @@ export function Hero(): ReactNode {
   }, [isVisible]);
 
   const arcAngles = isMobile ? mobileArcAngles : desktopArcAngles;
-  const radiusX = isMobile ? 215 : 800;
-  const radiusY = isMobile ? 92 : 185;
+  const radiusX = isMobile ? 600 : 900;
+  const radiusY = isMobile ? 115 : 155;
+  const arcSweep = isMobile ? 5 : 10;
 
   return (
     <section
@@ -179,15 +179,15 @@ export function Hero(): ReactNode {
           Click a card to learn more
         </p>
 
-        <div className="relative mx-auto h-[25rem] w-screen overflow-hidden md:h-[30rem]">
+        <div className="relative mx-auto h-[25rem] w-screen overflow-hidden md:h-[29rem]">
           <svg
             aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-5 h-[15rem] w-[56rem] max-w-none -translate-x-1/2 md:top-6 md:h-[21rem] md:w-[100rem]"
-            viewBox="0 0 1600 336"
+            className="pointer-events-none absolute left-1/2 top-3 h-[15rem] w-[74rem] max-w-none -translate-x-1/2 md:top-4 md:h-[19rem] md:w-[112rem]"
+            viewBox="0 0 1792 304"
             fill="none"
           >
             <path
-              d="M18 58C330 318 1270 318 1582 58"
+              d="M18 282C360 22 1432 22 1774 282"
               className="stroke-brand-blue-deep/12"
               strokeWidth="1.25"
               strokeDasharray="5 8"
@@ -208,7 +208,7 @@ export function Hero(): ReactNode {
                 key={card.title}
                 type="button"
                 onClick={() => setActiveFact(index)}
-                className="bg-brand-ivory border-border/60 absolute left-1/2 top-8 w-[12.25rem] -translate-x-1/2 shrink-0 overflow-hidden rounded-2xl border p-2 text-left shadow-lg shadow-brand-blue-deep/10 sm:w-[13.5rem] md:top-10 md:w-[14.25rem] lg:w-[15rem]"
+                className="bg-brand-ivory border-border/60 absolute left-1/2 top-[10.5rem] w-[11.5rem] -translate-x-1/2 shrink-0 overflow-hidden rounded-2xl border p-2 text-left shadow-lg shadow-brand-blue-deep/10 sm:w-[12.5rem] md:top-[13rem] md:w-[14rem] lg:w-[14.25rem]"
                 animate={
                   activeFact !== null
                     ? {
@@ -221,11 +221,11 @@ export function Hero(): ReactNode {
                         x: arcPoints.map((point) => point.x),
                         y: arcPoints.map((point) => point.y),
                         rotate: [
-                          baseRotation - 1.2,
+                          baseRotation - 1,
                           baseRotation,
-                          baseRotation + 1.2,
+                          baseRotation + 1,
                           baseRotation,
-                          baseRotation - 1.2,
+                          baseRotation - 1,
                         ],
                         scale: 1,
                       }
