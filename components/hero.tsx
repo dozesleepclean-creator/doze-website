@@ -294,7 +294,7 @@ export function Hero(): ReactNode {
       </motion.div>
 
       <AnimatePresence>
-        {activeCard && (
+        {activeFact !== null && activeCard && (
           <motion.div
             className="bg-brand-blue-deep/20 fixed inset-0 z-[90] flex items-center justify-center px-6 backdrop-blur-sm"
             initial={{ opacity: 0 }}
