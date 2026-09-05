@@ -7,56 +7,6 @@ import DitherCursor from "./dither-cursor";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
 
-const headlineFontStyles = {
-  modern: {
-    label: "Modern",
-    fontFamily: "Arial, Helvetica, sans-serif",
-    sleepWeight: 500,
-    cleanWeight: 300,
-    cleanStyle: "italic",
-  },
-  editorial: {
-    label: "Editorial",
-    fontFamily: 'Georgia, "Times New Roman", serif',
-    sleepWeight: 400,
-    cleanWeight: 400,
-    cleanStyle: "italic",
-  },
-  soft: {
-    label: "Soft Serif",
-    fontFamily: '"Times New Roman", Times, serif',
-    sleepWeight: 400,
-    cleanWeight: 400,
-    cleanStyle: "italic",
-  },
-  minimal: {
-    label: "Minimal",
-    fontFamily: "var(--font-geist-sans), Arial, Helvetica, sans-serif",
-    sleepWeight: 500,
-    cleanWeight: 300,
-    cleanStyle: "normal",
-  },
-} as const;
-
-type HeadlineFont = keyof typeof headlineFontStyles;
-
-const headlineColorways = [
-  {
-    id: "doze",
-    label: "DOZE Blue",
-    sleep: "#5f7597",
-    clean: "#7f95b5",
-  },
-  {
-    id: "contrast",
-    label: "Black + Blue",
-    sleep: "#111111",
-    clean: "#6f89ad",
-  },
-] as const;
-
-type HeadlineColorway = (typeof headlineColorways)[number]["id"];
-
 const cardData = [
   {
     title: "Naturally Soft",
@@ -111,18 +61,10 @@ export function Hero(): ReactNode {
   const [opacity, setOpacity] = useState(0);
   const [isMobile, setIsMobile] = useState(true);
   const [activeFact, setActiveFact] = useState<number | null>(null);
-  const [isHeadlinePickerOpen, setIsHeadlinePickerOpen] = useState(false);
-  const [headlineFont, setHeadlineFont] = useState<HeadlineFont>("modern");
-  const [headlineColorway, setHeadlineColorway] =
-    useState<HeadlineColorway>("doze");
   const opacityRef = useRef(0);
   const animationRef = useRef<number | null>(null);
 
   const activeCard = activeFact === null ? null : cardData[activeFact];
-  const headlineStyle = headlineFontStyles[headlineFont];
-  const activeColorway =
-    headlineColorways.find((colorway) => colorway.id === headlineColorway) ??
-    headlineColorways[0];
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -189,86 +131,6 @@ export function Hero(): ReactNode {
       )}
 
       <div ref={headlineRef} className="relative z-10 mx-auto max-w-5xl text-center">
-        <div className="relative mb-5 flex flex-col items-center">
-          <button
-            type="button"
-            onClick={() => setIsHeadlinePickerOpen((open) => !open)}
-            aria-expanded={isHeadlinePickerOpen}
-            className="border-brand-blue-deep/15 bg-brand-ivory/90 text-brand-blue-deep hover:bg-brand-blue-soft/20 rounded-full border px-4 py-2 text-[0.65rem] font-medium tracking-[0.16em] uppercase shadow-sm backdrop-blur-sm transition-colors"
-          >
-            Customize Sleep Clean
-          </button>
-
-          <AnimatePresence>
-            {isHeadlinePickerOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -8, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -8, scale: 0.98 }}
-                transition={{ duration: 0.22, ease: easeOut }}
-                className="border-border/70 bg-brand-ivory absolute top-full z-40 mt-3 w-[min(92vw,34rem)] rounded-3xl border p-5 text-left shadow-xl shadow-brand-blue-deep/10 backdrop-blur-md md:p-6"
-              >
-                <div>
-                  <p className="text-muted-foreground mb-2 text-[0.62rem] font-medium tracking-[0.18em] uppercase">
-                    Font
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {(Object.keys(headlineFontStyles) as HeadlineFont[]).map(
-                      (font) => (
-                        <button
-                          key={font}
-                          type="button"
-                          onClick={() => setHeadlineFont(font)}
-                          className={`rounded-full px-3.5 py-2 text-xs transition-all ${
-                            headlineFont === font
-                              ? "bg-brand-blue-deep text-white"
-                              : "bg-brand-blue-soft/20 text-brand-blue-deep hover:bg-brand-blue-soft/35"
-                          }`}
-                        >
-                          {headlineFontStyles[font].label}
-                        </button>
-                      )
-                    )}
-                  </div>
-                </div>
-
-                <div className="mt-5">
-                  <p className="text-muted-foreground mb-2 text-[0.62rem] font-medium tracking-[0.18em] uppercase">
-                    Colorway
-                  </p>
-                  <div className="grid gap-2 sm:grid-cols-2">
-                    {headlineColorways.map((colorway) => (
-                      <button
-                        key={colorway.id}
-                        type="button"
-                        onClick={() => setHeadlineColorway(colorway.id)}
-                        aria-pressed={headlineColorway === colorway.id}
-                        className={`flex items-center justify-between gap-3 rounded-2xl border px-3.5 py-3 text-left text-xs transition-all ${
-                          headlineColorway === colorway.id
-                            ? "border-brand-blue-deep bg-brand-blue-soft/20 text-brand-blue-deep"
-                            : "border-border/60 bg-background/55 text-muted-foreground hover:border-brand-blue-soft hover:text-brand-blue-deep"
-                        }`}
-                      >
-                        <span>{colorway.label}</span>
-                        <span className="flex items-center -space-x-1">
-                          <span
-                            className="h-6 w-6 rounded-full border-2 border-brand-ivory shadow-sm"
-                            style={{ backgroundColor: colorway.sleep }}
-                          />
-                          <span
-                            className="h-6 w-6 rounded-full border-2 border-brand-ivory shadow-sm"
-                            style={{ backgroundColor: colorway.clean }}
-                          />
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -283,26 +145,10 @@ export function Hero(): ReactNode {
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.8, delay: 0.1, ease: easeOut }}
           className="mb-8 flex flex-wrap items-baseline justify-center gap-x-[0.18em] text-6xl leading-[0.92] tracking-[-0.065em] md:text-8xl lg:text-[7rem]"
+          style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
         >
-          <span
-            style={{
-              color: activeColorway.sleep,
-              fontFamily: headlineStyle.fontFamily,
-              fontWeight: headlineStyle.sleepWeight,
-            }}
-          >
-            Sleep
-          </span>
-          <span
-            style={{
-              color: activeColorway.clean,
-              fontFamily: headlineStyle.fontFamily,
-              fontWeight: headlineStyle.cleanWeight,
-              fontStyle: headlineStyle.cleanStyle,
-            }}
-          >
-            Clean.
-          </span>
+          <span className="text-brand-blue-deep font-bold">Sleep</span>
+          <span className="text-brand-blue font-light italic">Clean.</span>
         </motion.h1>
 
         <motion.p
