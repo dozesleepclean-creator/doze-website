@@ -190,7 +190,7 @@ export function Hero(): ReactNode {
           className="max-w-3xl text-3xl font-normal tracking-tight md:text-5xl lg:text-6xl"
           style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
         >
-          One fresh layer between your skin and yesterday.
+          Clean sleep. Clearer mornings.
         </h2>
         <motion.a
           href="#how-it-works"
