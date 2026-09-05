@@ -118,7 +118,7 @@ export function Hero(): ReactNode {
 
   const arcAngles = isMobile ? mobileArcAngles : desktopArcAngles;
   const radiusX = isMobile ? 600 : 900;
-  const radiusY = isMobile ? 170 : 275;
+  const radiusY = isMobile ? 185 : 300;
   const arcSweep = isMobile ? 5 : 10;
 
   return (
@@ -179,15 +179,15 @@ export function Hero(): ReactNode {
           Click a card to learn more
         </p>
 
-        <div className="relative mx-auto h-[28rem] w-screen overflow-hidden md:h-[34rem]">
+        <div className="relative mx-auto h-[29rem] w-screen overflow-hidden md:h-[36rem]">
           <svg
             aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-0 h-[19rem] w-[74rem] max-w-none -translate-x-1/2 md:h-[26rem] md:w-[112rem]"
-            viewBox="0 0 1792 340"
+            className="pointer-events-none absolute left-1/2 top-0 h-[20rem] w-[74rem] max-w-none -translate-x-1/2 md:h-[28rem] md:w-[112rem]"
+            viewBox="0 0 1792 360"
             fill="none"
           >
             <path
-              d="M18 318C360 10 1432 10 1774 318"
+              d="M18 338C360 6 1432 6 1774 338"
               className="stroke-brand-blue-deep/12"
               strokeWidth="1.25"
               strokeDasharray="5 8"
@@ -208,7 +208,7 @@ export function Hero(): ReactNode {
                 key={card.title}
                 type="button"
                 onClick={() => setActiveFact(index)}
-                className="bg-brand-ivory border-border/60 absolute left-1/2 top-[13rem] w-[11.5rem] -translate-x-1/2 shrink-0 overflow-hidden rounded-2xl border p-2 text-left shadow-lg shadow-brand-blue-deep/10 sm:w-[12.5rem] md:top-[18rem] md:w-[14rem] lg:w-[14.25rem]"
+                className="bg-brand-ivory border-border/60 absolute left-1/2 top-[13.5rem] w-[11.5rem] -translate-x-1/2 shrink-0 overflow-hidden rounded-2xl border p-2 text-left shadow-lg shadow-brand-blue-deep/10 sm:w-[12.5rem] md:top-[19rem] md:w-[14rem] lg:w-[14.25rem]"
                 animate={
                   activeFact !== null
                     ? {
