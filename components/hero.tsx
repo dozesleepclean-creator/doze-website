@@ -7,6 +7,46 @@ import DitherCursor from "./dither-cursor";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
 
+const headlineFontStyles = {
+  modern: {
+    label: "Modern",
+    fontFamily: "Arial, Helvetica, sans-serif",
+    sleepWeight: 500,
+    cleanWeight: 300,
+    cleanStyle: "italic",
+  },
+  editorial: {
+    label: "Editorial",
+    fontFamily: 'Georgia, "Times New Roman", serif',
+    sleepWeight: 400,
+    cleanWeight: 400,
+    cleanStyle: "italic",
+  },
+  soft: {
+    label: "Soft Serif",
+    fontFamily: '"Times New Roman", Times, serif',
+    sleepWeight: 400,
+    cleanWeight: 400,
+    cleanStyle: "italic",
+  },
+  minimal: {
+    label: "Minimal",
+    fontFamily: "var(--font-geist-sans), Arial, Helvetica, sans-serif",
+    sleepWeight: 500,
+    cleanWeight: 300,
+    cleanStyle: "normal",
+  },
+} as const;
+
+type HeadlineFont = keyof typeof headlineFontStyles;
+
+const headlineColors = [
+  { label: "Deep blue", value: "#5f7597" },
+  { label: "DOZE blue", value: "#7f95b5" },
+  { label: "Soft blue", value: "#9fb3cc" },
+  { label: "Taupe", value: "#7c746b" },
+];
+
 const cardData = [
   {
     title: "Naturally Soft",
@@ -61,10 +101,15 @@ export function Hero(): ReactNode {
   const [opacity, setOpacity] = useState(0);
   const [isMobile, setIsMobile] = useState(true);
   const [activeFact, setActiveFact] = useState<number | null>(null);
+  const [isHeadlinePickerOpen, setIsHeadlinePickerOpen] = useState(false);
+  const [headlineFont, setHeadlineFont] = useState<HeadlineFont>("modern");
+  const [sleepColor, setSleepColor] = useState("#5f7597");
+  const [cleanColor, setCleanColor] = useState("#7f95b5");
   const opacityRef = useRef(0);
   const animationRef = useRef<number | null>(null);
 
   const activeCard = activeFact === null ? null : cardData[activeFact];
+  const headlineStyle = headlineFontStyles[headlineFont];
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -131,6 +176,101 @@ export function Hero(): ReactNode {
       )}
 
       <div ref={headlineRef} className="relative z-10 mx-auto max-w-5xl text-center">
+        <div className="relative mb-5 flex flex-col items-center">
+          <button
+            type="button"
+            onClick={() => setIsHeadlinePickerOpen((open) => !open)}
+            aria-expanded={isHeadlinePickerOpen}
+            className="border-brand-blue-deep/15 bg-brand-ivory/90 text-brand-blue-deep hover:bg-brand-blue-soft/20 rounded-full border px-4 py-2 text-[0.65rem] font-medium tracking-[0.16em] uppercase shadow-sm backdrop-blur-sm transition-colors"
+          >
+            Customize Sleep Clean
+          </button>
+
+          <AnimatePresence>
+            {isHeadlinePickerOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                transition={{ duration: 0.22, ease: easeOut }}
+                className="border-border/70 bg-brand-ivory absolute top-full z-40 mt-3 w-[min(92vw,34rem)] rounded-3xl border p-5 text-left shadow-xl shadow-brand-blue-deep/10 backdrop-blur-md md:p-6"
+              >
+                <div>
+                  <p className="text-muted-foreground mb-2 text-[0.62rem] font-medium tracking-[0.18em] uppercase">
+                    Font
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {(Object.keys(headlineFontStyles) as HeadlineFont[]).map(
+                      (font) => (
+                        <button
+                          key={font}
+                          type="button"
+                          onClick={() => setHeadlineFont(font)}
+                          className={`rounded-full px-3.5 py-2 text-xs transition-all ${
+                            headlineFont === font
+                              ? "bg-brand-blue-deep text-white"
+                              : "bg-brand-blue-soft/20 text-brand-blue-deep hover:bg-brand-blue-soft/35"
+                          }`}
+                        >
+                          {headlineFontStyles[font].label}
+                        </button>
+                      )
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-5 grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <p className="text-muted-foreground mb-2 text-[0.62rem] font-medium tracking-[0.18em] uppercase">
+                      Sleep color
+                    </p>
+                    <div className="flex gap-2">
+                      {headlineColors.map((color) => (
+                        <button
+                          key={`sleep-${color.value}`}
+                          type="button"
+                          onClick={() => setSleepColor(color.value)}
+                          aria-label={`Sleep: ${color.label}`}
+                          aria-pressed={sleepColor === color.value}
+                          className={`h-8 w-8 rounded-full border-2 transition-transform hover:scale-110 ${
+                            sleepColor === color.value
+                              ? "border-brand-blue-deep scale-110"
+                              : "border-brand-ivory ring-1 ring-border"
+                          }`}
+                          style={{ backgroundColor: color.value }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-muted-foreground mb-2 text-[0.62rem] font-medium tracking-[0.18em] uppercase">
+                      Clean color
+                    </p>
+                    <div className="flex gap-2">
+                      {headlineColors.map((color) => (
+                        <button
+                          key={`clean-${color.value}`}
+                          type="button"
+                          onClick={() => setCleanColor(color.value)}
+                          aria-label={`Clean: ${color.label}`}
+                          aria-pressed={cleanColor === color.value}
+                          className={`h-8 w-8 rounded-full border-2 transition-transform hover:scale-110 ${
+                            cleanColor === color.value
+                              ? "border-brand-blue-deep scale-110"
+                              : "border-brand-ivory ring-1 ring-border"
+                          }`}
+                          style={{ backgroundColor: color.value }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -145,10 +285,26 @@ export function Hero(): ReactNode {
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.8, delay: 0.1, ease: easeOut }}
           className="mb-8 flex flex-wrap items-baseline justify-center gap-x-[0.18em] text-6xl leading-[0.92] tracking-[-0.065em] md:text-8xl lg:text-[7rem]"
-          style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
         >
-          <span className="text-brand-blue-deep font-bold">Sleep</span>
-          <span className="text-brand-blue font-light italic">Clean.</span>
+          <span
+            style={{
+              color: sleepColor,
+              fontFamily: headlineStyle.fontFamily,
+              fontWeight: headlineStyle.sleepWeight,
+            }}
+          >
+            Sleep
+          </span>
+          <span
+            style={{
+              color: cleanColor,
+              fontFamily: headlineStyle.fontFamily,
+              fontWeight: headlineStyle.cleanWeight,
+              fontStyle: headlineStyle.cleanStyle,
+            }}
+          >
+            Clean.
+          </span>
         </motion.h1>
 
         <motion.p
