@@ -2,7 +2,7 @@
 
 import {
   ChevronRightIcon,
-  Cloud,
+  Feather,
   Plane,
   Sparkle,
   type LucideIcon,
@@ -32,7 +32,7 @@ const features: Feature[] = [
     title: "Soft enough for sleep",
     description:
       "Designed around a soft, lightweight feel so your cleaner bedtime routine still feels like bedtime.",
-    icon: Cloud,
+    icon: Feather,
   },
   {
     number: "03",
