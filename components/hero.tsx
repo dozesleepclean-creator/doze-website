@@ -40,9 +40,10 @@ const cardData = [
   },
 ];
 
-const arcAngles = [-55, -27.5, 0, 27.5, 55];
-const cardRotations = [-5, -2.5, 0, 2.5, 5];
-const arcSway = 6;
+const desktopArcAngles = [-58, -29, 0, 29, 58];
+const mobileArcAngles = [-40, -20, 0, 20, 40];
+const cardRotations = [-7, -3.5, 0, 3.5, 7];
+const arcSweep = 14;
 
 function getArcPoint(angle: number, radiusX: number, radiusY: number) {
   const radians = (angle * Math.PI) / 180;
@@ -116,8 +117,9 @@ export function Hero(): ReactNode {
     };
   }, [isVisible]);
 
-  const radiusX = isMobile ? 390 : 540;
-  const radiusY = isMobile ? 105 : 145;
+  const arcAngles = isMobile ? mobileArcAngles : desktopArcAngles;
+  const radiusX = isMobile ? 215 : 800;
+  const radiusY = isMobile ? 92 : 185;
 
   return (
     <section
@@ -177,15 +179,15 @@ export function Hero(): ReactNode {
           Click a card to learn more
         </p>
 
-        <div className="relative mx-auto h-[25rem] max-w-[94rem] overflow-hidden md:h-[28rem]">
+        <div className="relative mx-auto h-[25rem] w-screen overflow-hidden md:h-[30rem]">
           <svg
             aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-6 h-[15rem] w-[68rem] max-w-none -translate-x-1/2 md:top-8 md:h-[18rem]"
-            viewBox="0 0 1088 288"
+            className="pointer-events-none absolute left-1/2 top-5 h-[15rem] w-[56rem] max-w-none -translate-x-1/2 md:top-6 md:h-[21rem] md:w-[100rem]"
+            viewBox="0 0 1600 336"
             fill="none"
           >
             <path
-              d="M74 72C274 198 814 198 1014 72"
+              d="M18 58C330 318 1270 318 1582 58"
               className="stroke-brand-blue-deep/12"
               strokeWidth="1.25"
               strokeDasharray="5 8"
@@ -195,7 +197,7 @@ export function Hero(): ReactNode {
           {cardData.map((card, index) => {
             const baseAngle = arcAngles[index] ?? 0;
             const baseRotation = cardRotations[index] ?? 0;
-            const phases = [-arcSway, 0, arcSway, 0, -arcSway];
+            const phases = [-arcSweep, 0, arcSweep, 0, -arcSweep];
             const arcPoints = phases.map((phase) =>
               getArcPoint(baseAngle + phase, radiusX, radiusY)
             );
@@ -219,11 +221,11 @@ export function Hero(): ReactNode {
                         x: arcPoints.map((point) => point.x),
                         y: arcPoints.map((point) => point.y),
                         rotate: [
-                          baseRotation - 0.8,
+                          baseRotation - 1.2,
                           baseRotation,
-                          baseRotation + 0.8,
+                          baseRotation + 1.2,
                           baseRotation,
-                          baseRotation - 0.8,
+                          baseRotation - 1.2,
                         ],
                         scale: 1,
                       }
@@ -232,7 +234,7 @@ export function Hero(): ReactNode {
                   activeFact !== null
                     ? { duration: 0.35, ease: easeOut }
                     : {
-                        duration: 13,
+                        duration: 16,
                         repeat: Infinity,
                         ease: "easeInOut",
                       }
