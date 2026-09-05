@@ -2,25 +2,10 @@
 
 import { ChevronRight as ChevronRightIcon, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import {
-  useEffect,
-  useRef,
-  useState,
-  type MouseEvent as ReactMouseEvent,
-  type ReactNode,
-} from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import DitherCursor from "./dither-cursor";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
-
-type MotionMode = "parallax" | "arc" | "breathing" | "magnetic";
-
-const motionOptions: { id: MotionMode; label: string }[] = [
-  { id: "parallax", label: "Parallax Drift" },
-  { id: "arc", label: "Gentle Arc" },
-  { id: "breathing", label: "Breathing" },
-  { id: "magnetic", label: "Magnetic Hover" },
-];
 
 const cardData = [
   {
@@ -55,11 +40,18 @@ const cardData = [
   },
 ];
 
-const cardRotations = [-4, 2, -1, 3, -3];
-const cardOffsets = [18, 0, 12, 2, 20];
-const parallaxAmounts = [18, 11, 6, 13, 20];
-const parallaxDurations = [8.6, 10.2, 7.8, 9.4, 8.2];
-const arcOffsets = [24, 9, 0, 9, 24];
+const arcAngles = [-55, -27.5, 0, 27.5, 55];
+const cardRotations = [-5, -2.5, 0, 2.5, 5];
+const arcSway = 6;
+
+function getArcPoint(angle: number, radiusX: number, radiusY: number) {
+  const radians = (angle * Math.PI) / 180;
+
+  return {
+    x: Math.sin(radians) * radiusX,
+    y: Math.cos(radians) * radiusY,
+  };
+}
 
 export function Hero(): ReactNode {
   const sectionRef = useRef<HTMLElement>(null);
@@ -69,15 +61,6 @@ export function Hero(): ReactNode {
   const [opacity, setOpacity] = useState(0);
   const [isMobile, setIsMobile] = useState(true);
   const [activeFact, setActiveFact] = useState<number | null>(null);
-  const [isCardRowHovered, setIsCardRowHovered] = useState(false);
-  const [motionMode, setMotionMode] = useState<MotionMode>("parallax");
-  const [magneticCard, setMagneticCard] = useState<{
-    index: number;
-    x: number;
-    y: number;
-    rotateX: number;
-    rotateY: number;
-  } | null>(null);
   const opacityRef = useRef(0);
   const animationRef = useRef<number | null>(null);
 
@@ -89,10 +72,6 @@ export function Hero(): ReactNode {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
-
-  useEffect(() => {
-    setMagneticCard(null);
-  }, [motionMode]);
 
   useEffect(() => {
     const headline = headlineRef.current;
@@ -137,26 +116,8 @@ export function Hero(): ReactNode {
     };
   }, [isVisible]);
 
-  const handleMagneticMove = (
-    event: ReactMouseEvent<HTMLButtonElement>,
-    index: number
-  ) => {
-    if (motionMode !== "magnetic") return;
-
-    const rect = event.currentTarget.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const normalizedX = (event.clientX - centerX) / (rect.width / 2);
-    const normalizedY = (event.clientY - centerY) / (rect.height / 2);
-
-    setMagneticCard({
-      index,
-      x: normalizedX * 9,
-      y: normalizedY * 6,
-      rotateX: normalizedY * -4,
-      rotateY: normalizedX * 5,
-    });
-  };
+  const radiusX = isMobile ? 390 : 540;
+  const radiusY = isMobile ? 105 : 145;
 
   return (
     <section
@@ -210,209 +171,99 @@ export function Hero(): ReactNode {
 
       <div
         id="shop"
-        className="relative -mx-6 mt-10 w-screen overflow-hidden pb-12 pt-10 md:mt-12 md:pb-16"
+        className="relative -mx-6 mt-10 w-screen overflow-hidden pb-10 pt-9 md:mt-12 md:pb-14"
       >
-        <div className="mb-6 flex flex-col items-center gap-3 px-6">
-          <p className="text-muted-foreground text-center text-[0.65rem] font-medium tracking-[0.2em] uppercase">
-            Try a motion · click a card to learn more
-          </p>
-          <div className="border-border/60 bg-brand-ivory/80 flex max-w-full flex-wrap items-center justify-center gap-1.5 rounded-full border p-1.5 shadow-sm backdrop-blur-sm">
-            {motionOptions.map((option) => (
-              <button
-                key={option.id}
-                type="button"
-                onClick={() => setMotionMode(option.id)}
-                className={`rounded-full px-3 py-2 text-[0.68rem] font-medium tracking-wide transition-all sm:px-4 sm:text-xs ${
-                  motionMode === option.id
-                    ? "bg-brand-blue-deep text-white shadow-sm"
-                    : "text-brand-blue-deep/65 hover:bg-brand-blue-soft/25 hover:text-brand-blue-deep"
-                }`}
-                aria-pressed={motionMode === option.id}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        </div>
+        <p className="text-muted-foreground mb-4 text-center text-[0.65rem] font-medium tracking-[0.2em] uppercase">
+          Click a card to learn more
+        </p>
 
-        <div className="relative mx-auto max-w-[94rem] overflow-hidden py-10">
-          <motion.div
-            className="mx-auto flex w-max items-start gap-2 px-6 sm:gap-3 md:gap-4"
-            animate={
-              activeFact !== null || isCardRowHovered
-                ? { x: 0 }
-                : motionMode === "parallax"
-                  ? { x: [-34, 34, -34] }
-                  : motionMode === "arc"
-                    ? { x: [-48, 48, -48] }
-                    : { x: 0 }
-            }
-            transition={
-              activeFact !== null || isCardRowHovered
-                ? { duration: 0.35, ease: easeOut }
-                : motionMode === "parallax"
-                  ? { duration: 20, repeat: Infinity, ease: "easeInOut" }
-                  : motionMode === "arc"
-                    ? { duration: 18, repeat: Infinity, ease: "easeInOut" }
-                    : { duration: 0.35, ease: easeOut }
-            }
-            onMouseEnter={() => setIsCardRowHovered(true)}
-            onMouseLeave={() => {
-              setIsCardRowHovered(false);
-              setMagneticCard(null);
-            }}
+        <div className="relative mx-auto h-[25rem] max-w-[94rem] overflow-hidden md:h-[28rem]">
+          <svg
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1/2 top-6 h-[15rem] w-[68rem] max-w-none -translate-x-1/2 md:top-8 md:h-[18rem]"
+            viewBox="0 0 1088 288"
+            fill="none"
           >
-            {cardData.map((card, index) => {
-              const baseRotation = cardRotations[index] ?? 0;
-              const baseOffset = cardOffsets[index] ?? 0;
-              const parallaxAmount = parallaxAmounts[index] ?? 10;
-              const parallaxDuration = parallaxDurations[index] ?? 9;
-              const arcOffset = arcOffsets[index] ?? 0;
-              const breathingX = (index - 2) * 14;
-              const isMagneticTarget = magneticCard?.index === index;
-              const magneticNeighborShift =
-                motionMode === "magnetic" && magneticCard
-                  ? index < magneticCard.index
-                    ? -8
-                    : index > magneticCard.index
-                      ? 8
-                      : 0
-                  : 0;
+            <path
+              d="M74 72C274 198 814 198 1014 72"
+              className="stroke-brand-blue-deep/12"
+              strokeWidth="1.25"
+              strokeDasharray="5 8"
+            />
+          </svg>
 
-              let cardAnimate;
-              let cardTransition;
+          {cardData.map((card, index) => {
+            const baseAngle = arcAngles[index] ?? 0;
+            const baseRotation = cardRotations[index] ?? 0;
+            const phases = [-arcSway, 0, arcSway, 0, -arcSway];
+            const arcPoints = phases.map((phase) =>
+              getArcPoint(baseAngle + phase, radiusX, radiusY)
+            );
+            const restingPoint = getArcPoint(baseAngle, radiusX, radiusY);
 
-              if (activeFact !== null) {
-                cardAnimate = {
-                  x: 0,
-                  y: baseOffset,
-                  rotate: baseRotation,
-                  rotateX: 0,
-                  rotateY: 0,
-                  scale: 1,
-                };
-                cardTransition = { duration: 0.35, ease: easeOut };
-              } else if (motionMode === "parallax") {
-                const direction = index % 2 === 0 ? 1 : -1;
-                cardAnimate = {
-                  x: [
-                    -parallaxAmount * direction,
-                    parallaxAmount * direction,
-                    -parallaxAmount * direction,
-                  ],
-                  y: [baseOffset, baseOffset - 7, baseOffset],
-                  rotate: [baseRotation - 1, baseRotation + 1, baseRotation - 1],
-                  rotateX: 0,
-                  rotateY: 0,
-                  scale: 1,
-                };
-                cardTransition = {
-                  duration: parallaxDuration,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: index * 0.18,
-                };
-              } else if (motionMode === "arc") {
-                cardAnimate = {
-                  x: 0,
-                  y: [arcOffset, arcOffset - 6, arcOffset],
-                  rotate: [baseRotation - 0.8, baseRotation + 0.8, baseRotation - 0.8],
-                  rotateX: 0,
-                  rotateY: 0,
-                  scale: index === 2 ? 1.025 : 1,
-                };
-                cardTransition = {
-                  duration: 7.2 + index * 0.35,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: index * 0.12,
-                };
-              } else if (motionMode === "breathing") {
-                cardAnimate = {
-                  x: [0, breathingX, 0],
-                  y: [baseOffset, baseOffset - 3, baseOffset],
-                  rotate: baseRotation,
-                  rotateX: 0,
-                  rotateY: 0,
-                  scale: [1, 1.018, 1],
-                };
-                cardTransition = {
-                  duration: 6.8,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: index * 0.08,
-                };
-              } else {
-                cardAnimate = isMagneticTarget
-                  ? {
-                      x: magneticCard?.x ?? 0,
-                      y: baseOffset + (magneticCard?.y ?? 0),
-                      rotate: 0,
-                      rotateX: magneticCard?.rotateX ?? 0,
-                      rotateY: magneticCard?.rotateY ?? 0,
-                      scale: 1.035,
-                    }
-                  : {
-                      x: magneticNeighborShift,
-                      y: baseOffset,
-                      rotate: baseRotation,
-                      rotateX: 0,
-                      rotateY: 0,
-                      scale: 1,
-                    };
-                cardTransition = {
-                  type: "spring",
-                  stiffness: 180,
-                  damping: 18,
-                  mass: 0.55,
-                } as const;
-              }
-
-              return (
-                <motion.button
-                  key={card.title}
-                  type="button"
-                  onClick={() => setActiveFact(index)}
-                  onMouseMove={(event) => handleMagneticMove(event, index)}
-                  onMouseLeave={() => {
-                    if (motionMode === "magnetic") setMagneticCard(null);
+            return (
+              <motion.button
+                key={card.title}
+                type="button"
+                onClick={() => setActiveFact(index)}
+                className="bg-brand-ivory border-border/60 absolute left-1/2 top-8 w-[12.25rem] -translate-x-1/2 shrink-0 overflow-hidden rounded-2xl border p-2 text-left shadow-lg shadow-brand-blue-deep/10 sm:w-[13.5rem] md:top-10 md:w-[14.25rem] lg:w-[15rem]"
+                animate={
+                  activeFact !== null
+                    ? {
+                        x: restingPoint.x,
+                        y: restingPoint.y,
+                        rotate: baseRotation,
+                        scale: 1,
+                      }
+                    : {
+                        x: arcPoints.map((point) => point.x),
+                        y: arcPoints.map((point) => point.y),
+                        rotate: [
+                          baseRotation - 0.8,
+                          baseRotation,
+                          baseRotation + 0.8,
+                          baseRotation,
+                          baseRotation - 0.8,
+                        ],
+                        scale: 1,
+                      }
+                }
+                transition={
+                  activeFact !== null
+                    ? { duration: 0.35, ease: easeOut }
+                    : {
+                        duration: 13,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }
+                }
+                whileHover={{ rotate: 0, scale: 1.04, zIndex: 30 }}
+                whileTap={{ scale: 0.985 }}
+                aria-label={`Learn more: ${card.title}`}
+              >
+                <div
+                  className="border-border/60 aspect-[4/3] w-full rounded-xl border bg-cover bg-no-repeat shadow-sm"
+                  style={{
+                    backgroundImage: 'url("/img/doze-carousel-sprite.webp")',
+                    backgroundSize: "300% 200%",
+                    backgroundPosition: card.position,
                   }}
-                  className="bg-brand-ivory border-border/60 w-[12.75rem] shrink-0 overflow-hidden rounded-2xl border p-2 text-left shadow-lg shadow-brand-blue-deep/10 sm:w-[13.75rem] md:w-[14.75rem] lg:w-[15.5rem]"
-                  style={{ transformPerspective: 900 }}
-                  animate={cardAnimate}
-                  transition={cardTransition}
-                  whileHover={
-                    motionMode === "magnetic"
-                      ? undefined
-                      : { y: baseOffset - 10, rotate: 0, scale: 1.035 }
-                  }
-                  whileTap={{ scale: 0.985 }}
-                  aria-label={`Learn more: ${card.title}`}
-                >
-                  <div
-                    className="border-border/60 aspect-[4/3] w-full rounded-xl border bg-cover bg-no-repeat shadow-sm"
-                    style={{
-                      backgroundImage: 'url("/img/doze-carousel-sprite.webp")',
-                      backgroundSize: "300% 200%",
-                      backgroundPosition: card.position,
-                    }}
-                    role="img"
-                    aria-label={card.title}
-                  />
-                  <div className="flex min-h-14 items-center justify-center px-2 py-3 text-center">
-                    <span className="text-foreground text-[0.64rem] font-medium leading-snug tracking-[0.12em] uppercase md:text-[0.68rem]">
-                      {card.title}
-                    </span>
-                  </div>
-                </motion.button>
-              );
-            })}
-          </motion.div>
+                  role="img"
+                  aria-label={card.title}
+                />
+                <div className="flex min-h-14 items-center justify-center px-2 py-3 text-center">
+                  <span className="text-foreground text-[0.64rem] font-medium leading-snug tracking-[0.12em] uppercase md:text-[0.68rem]">
+                    {card.title}
+                  </span>
+                </div>
+              </motion.button>
+            );
+          })}
         </div>
       </div>
 
       <motion.div
-        className="relative z-10 flex flex-col items-center px-6 pb-24 pt-4 text-center"
+        className="relative z-10 flex flex-col items-center px-6 pb-24 pt-2 text-center"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
