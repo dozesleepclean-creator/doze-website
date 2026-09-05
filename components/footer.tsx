@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRightIcon, Instagram, Mail, Phone } from "lucide-react";
+import { ChevronRightIcon, Instagram, Mail, Music2, Phone } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -25,6 +25,7 @@ const connectLinks = [
   { label: "Email", href: "mailto:dozesleepclean@gmail.com" },
   { label: "Phone", href: "tel:+14074055512" },
   { label: "Instagram", href: "https://www.instagram.com/dozesleepclean/" },
+  { label: "TikTok", href: "https://www.tiktok.com/@sleepwithdoze" },
 ];
 
 export function Footer(): ReactNode {
@@ -121,6 +122,12 @@ export function Footer(): ReactNode {
               >
                 @dozesleepclean
               </a>
+              <a
+                href="https://www.tiktok.com/@sleepwithdoze"
+                className="block text-base text-background/75 transition-opacity hover:opacity-70"
+              >
+                @sleepwithdoze
+              </a>
             </motion.div>
 
             <motion.div className="flex items-center gap-4 lg:justify-end" {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.2 }}>
@@ -130,6 +137,13 @@ export function Footer(): ReactNode {
                 aria-label="Instagram"
               >
                 <Instagram className="h-4 w-4" />
+              </a>
+              <a
+                href="https://www.tiktok.com/@sleepwithdoze"
+                className="bg-background/10 text-background hover:bg-background hover:text-foreground flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 hover:scale-110"
+                aria-label="TikTok"
+              >
+                <Music2 className="h-4 w-4" />
               </a>
               <a
                 href="mailto:dozesleepclean@gmail.com"
