@@ -63,7 +63,7 @@ export function FinalCTA(): ReactNode {
           </motion.p>
 
           <motion.a
-            href="mailto:dozesleepclean@gmail.com?subject=DOZE%20Launch%20List"
+            href="/launch"
             className="group inline-flex w-full items-center justify-center gap-3 rounded-md bg-foreground py-3 pl-5 pr-3 font-medium text-background transition-all duration-500 ease-out hover:rounded-[50px] hover:shadow-lg sm:w-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
