@@ -66,9 +66,6 @@ function FeatureCard({
       }}
     >
       <div className="px-4 py-20 md:py-28">
-        <span className="text-muted-foreground bg-foreground/5 mb-4 block w-fit rounded-md px-2 py-1 text-sm font-medium">
-          {feature.number}
-        </span>
         <h3
           className="mb-4 text-2xl font-normal tracking-tight md:text-3xl"
           style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
