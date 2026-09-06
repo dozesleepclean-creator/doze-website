@@ -113,7 +113,7 @@ export default function LaunchPage(): ReactNode {
                   Just the updates.
                 </h2>
                 <p className="mt-4 max-w-lg text-base leading-relaxed text-muted-foreground">
-                  Enter your email and we’ll start a pre-filled message to DOZE so we can add you to the launch list.
+                  Enter your email to join the DOZE launch list.
                 </p>
 
                 <form onSubmit={handleEmailSignup} className="mt-9">
