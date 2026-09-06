@@ -8,19 +8,19 @@ const easeOut = [0.16, 1, 0.3, 1] as const;
 
 const steps = [
   {
-    number: "01",
+    number: "1",
     title: "Unfold a fresh liner",
     description:
       "Keep DOZE by your bed and start the night with a fresh disposable liner ready to go.",
   },
   {
-    number: "02",
+    number: "2",
     title: "Slip it over your pillow",
     description:
       "Create a fresh surface between your skin and your pillowcase in seconds — no extra laundry required.",
   },
   {
-    number: "03",
+    number: "3",
     title: "Wake up. Reset. Repeat.",
     description:
       "Use it for the night, then replace it with a fresh liner when bedtime comes around again.",
@@ -40,23 +40,31 @@ function StepCard({
   return (
     <motion.div
       ref={ref}
-      className="bg-muted min-h-70 rounded-2xl p-6 md:p-8 flex flex-col border border-border/60"
+      className="bg-muted rounded-2xl border border-border/60 p-4 md:p-5"
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ duration: 0.6, delay: index * 0.1, ease: easeOut }}
     >
-      <div className="text-brand-blue-deep mb-6 text-sm font-medium tracking-[0.18em]">
-        {step.number}
+      <div className="px-3 pb-6 pt-3 md:px-4 md:pb-8 md:pt-4">
+        <h3
+          className="mb-3 text-xl font-normal tracking-tight md:text-2xl"
+          style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+        >
+          {step.title}
+        </h3>
+        <p className="text-muted-foreground text-base leading-relaxed">
+          {step.description}
+        </p>
       </div>
-      <h3
-        className="mb-3 text-xl font-normal tracking-tight md:text-2xl mt-auto"
-        style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
-      >
-        {step.title}
-      </h3>
-      <p className="text-muted-foreground text-base leading-relaxed">
-        {step.description}
-      </p>
+
+      <div className="border-border/60 flex min-h-[16rem] items-center justify-center rounded-[1.25rem] border bg-white/75 md:min-h-[18rem]">
+        <span
+          className="text-brand-blue-deep text-6xl font-normal leading-none md:text-7xl"
+          style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+        >
+          {step.number}
+        </span>
+      </div>
     </motion.div>
   );
 }
