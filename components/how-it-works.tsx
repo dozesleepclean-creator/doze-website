@@ -1,6 +1,5 @@
 "use client";
 
-import { Moon, PackageOpen, Sun } from "lucide-react";
 import { motion, useInView } from "motion/react";
 import type { ReactNode } from "react";
 import { useRef } from "react";
@@ -9,19 +8,19 @@ const easeOut = [0.16, 1, 0.3, 1] as const;
 
 const steps = [
   {
-    icon: PackageOpen,
+    number: "01",
     title: "Unfold a fresh liner",
     description:
       "Keep DOZE by your bed and start the night with a fresh disposable liner ready to go.",
   },
   {
-    icon: Moon,
+    number: "02",
     title: "Slip it over your pillow",
     description:
       "Create a fresh surface between your skin and your pillowcase in seconds — no extra laundry required.",
   },
   {
-    icon: Sun,
+    number: "03",
     title: "Wake up. Reset. Repeat.",
     description:
       "Use it for the night, then replace it with a fresh liner when bedtime comes around again.",
@@ -37,7 +36,6 @@ function StepCard({
 }): ReactNode {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.5 });
-  const Icon = step.icon;
 
   return (
     <motion.div
@@ -47,8 +45,8 @@ function StepCard({
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ duration: 0.6, delay: index * 0.1, ease: easeOut }}
     >
-      <div className="text-foreground mb-6">
-        <Icon className="h-12 w-12" strokeWidth={1} />
+      <div className="text-brand-blue-deep mb-6 text-sm font-medium tracking-[0.18em]">
+        {step.number}
       </div>
       <h3
         className="mb-3 text-xl font-normal tracking-tight md:text-2xl mt-auto"
