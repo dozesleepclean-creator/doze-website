@@ -53,7 +53,7 @@ export default function LaunchPage(): ReactNode {
               className="max-w-lg text-5xl font-normal leading-[0.95] tracking-tight md:text-6xl"
               style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
             >
-              Be first to sleep clean.
+              Your fresh start begins here.
             </h1>
             <p className="mt-7 max-w-md text-lg leading-relaxed text-white/75">
               Join the DOZE launch list for first-drop updates, early access, and product news before launch day.
