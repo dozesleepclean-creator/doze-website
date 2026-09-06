@@ -38,7 +38,7 @@ export function Footer(): ReactNode {
               A fresh pillow surface for the nights you want your routine to feel a little cleaner, calmer, and easier.
             </p>
             <Link
-              href="mailto:dozesleepclean@gmail.com?subject=DOZE%20Launch%20List"
+              href="/launch"
               className="group mt-8 inline-flex items-center gap-3 rounded-md bg-background py-3 pl-4 pr-3 font-medium text-foreground transition-all duration-500 ease-out hover:rounded-[50px]"
             >
               <span>Join the launch list</span>
