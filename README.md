@@ -209,3 +209,5 @@ This template is licensed for use in commercial projects. You may not resell or 
 ---
 
 Built with ❤️ using Next.js, Tailwind CSS, React Three Fiber, and Motion
+
+<!-- Vercel deployment sync -->
