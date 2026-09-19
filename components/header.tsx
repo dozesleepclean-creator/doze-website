@@ -169,7 +169,7 @@ function MobileActions(): ReactNode {
         Contact
       </Link>
       <Link
-        href="mailto:dozesleepclean@gmail.com?subject=DOZE%20Launch%20List"
+        href="/launch"
         className="group bg-accent text-foreground relative rounded-[3.5px] px-6 py-3 text-base font-medium tracking-tight transition-all duration-500 hover:rounded-[50px]"
       >
         Join Launch List
