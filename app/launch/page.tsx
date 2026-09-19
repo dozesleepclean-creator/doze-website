@@ -4,13 +4,13 @@ import {
   ArrowLeft,
   ArrowRight,
   Check,
+  Instagram,
   Mail,
   UserRound,
 } from "lucide-react";
 import Link from "next/link";
 import { FormEvent, useState, type ReactNode } from "react";
 
-type SignupMode = "email" | "account";
 type Notice = { type: "success" | "error"; message: string } | null;
 
 const SUPABASE_URL = "https://ueplaqlwfkkjstwcgzpb.supabase.co";
@@ -20,11 +20,9 @@ const SUPABASE_PUBLISHABLE_KEY =
 async function addToLaunchList({
   email,
   name,
-  source,
 }: {
   email: string;
   name?: string;
-  source: SignupMode;
 }): Promise<"added" | "already"> {
   const response = await fetch(`${SUPABASE_URL}/rest/v1/launch_list`, {
     method: "POST",
@@ -36,30 +34,23 @@ async function addToLaunchList({
     body: JSON.stringify({
       email: email.trim().toLowerCase(),
       name: name?.trim() || null,
-      source,
+      source: "email",
     }),
   });
 
   if (response.ok) return "added";
   if (response.status === 409) return "already";
 
-  throw new Error("We could not add you to the launch list. Please try again.");
+  throw new Error("We could not add you to the waitlist. Please try again.");
 }
 
 export default function LaunchPage(): ReactNode {
-  const [mode, setMode] = useState<SignupMode>("email");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [notice, setNotice] = useState<Notice>(null);
 
-  const changeMode = (nextMode: SignupMode) => {
-    setMode(nextMode);
-    setNotice(null);
-  };
-
-  const handleEmailSignup = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSignup = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!email.trim() || isSubmitting) return;
 
@@ -67,85 +58,16 @@ export default function LaunchPage(): ReactNode {
     setNotice(null);
 
     try {
-      const result = await addToLaunchList({ email, source: "email" });
+      const result = await addToLaunchList({ email, name });
       setNotice({
         type: "success",
         message:
           result === "already"
-            ? "You’re already on the DOZE launch list."
-            : "You’re on the list. We’ll keep you posted on the first DOZE drop.",
-      });
-      setEmail("");
-    } catch (error) {
-      setNotice({
-        type: "error",
-        message:
-          error instanceof Error
-            ? error.message
-            : "Something went wrong. Please try again.",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleAccountSignup = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!name.trim() || !email.trim() || password.length < 8 || isSubmitting) {
-      return;
-    }
-
-    setIsSubmitting(true);
-    setNotice(null);
-
-    try {
-      const normalizedEmail = email.trim().toLowerCase();
-      const authResponse = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
-        method: "POST",
-        headers: {
-          apikey: SUPABASE_PUBLISHABLE_KEY,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: normalizedEmail,
-          password,
-          data: { name: name.trim() },
-        }),
-      });
-
-      const authData = (await authResponse.json()) as {
-        access_token?: string;
-        msg?: string;
-        message?: string;
-        error_description?: string;
-        error?: string;
-      };
-
-      if (!authResponse.ok) {
-        throw new Error(
-          authData.msg ||
-            authData.message ||
-            authData.error_description ||
-            authData.error ||
-            "We could not create your account. Please try again."
-        );
-      }
-
-      await addToLaunchList({
-        email: normalizedEmail,
-        name,
-        source: "account",
-      });
-
-      setNotice({
-        type: "success",
-        message: authData.access_token
-          ? "Your DOZE account is ready, and you’re on the launch list."
-          : "Your DOZE account was created. Check your email to confirm it — you’re also on the launch list.",
+            ? "You’re already on the DOZE waitlist. We’ll keep you posted."
+            : "You’re in. We’ll keep you posted as DOZE gets closer to launch.",
       });
       setName("");
       setEmail("");
-      setPassword("");
     } catch (error) {
       setNotice({
         type: "error",
@@ -160,7 +82,10 @@ export default function LaunchPage(): ReactNode {
   };
 
   return (
-    <main className="min-h-screen bg-background px-6 pb-24 pt-36 md:pb-32 md:pt-48">
+    <main
+      id="main-content"
+      className="bg-background min-h-screen px-6 pt-36 pb-24 md:pt-48 md:pb-32"
+    >
       <div className="mx-auto max-w-6xl">
         <Link
           href="/"
@@ -170,26 +95,27 @@ export default function LaunchPage(): ReactNode {
           Back to DOZE
         </Link>
 
-        <div className="grid overflow-hidden rounded-[2rem] border border-border/60 bg-brand-ivory shadow-xl shadow-brand-blue-deep/5 lg:grid-cols-[0.92fr_1.08fr]">
+        <div className="border-border/60 bg-brand-ivory shadow-brand-blue-deep/5 grid overflow-hidden rounded-[2rem] border shadow-xl lg:grid-cols-[0.92fr_1.08fr]">
           <section className="bg-brand-blue px-7 py-12 text-white md:px-12 md:py-16 lg:min-h-[42rem] lg:px-14 lg:py-20">
-            <p className="mb-5 text-xs font-medium tracking-[0.28em] uppercase text-white/65">
-              First access
+            <p className="mb-5 text-xs font-medium tracking-[0.28em] text-white/65 uppercase">
+              DOZE · Pre-launch
             </p>
             <h1
-              className="max-w-lg text-5xl font-normal leading-[0.95] tracking-tight md:text-6xl"
+              className="max-w-lg text-5xl leading-[0.95] font-normal tracking-tight md:text-6xl"
               style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
             >
-              Your fresh start begins here.
+              Get in before the first drop.
             </h1>
             <p className="mt-7 max-w-md text-lg leading-relaxed text-white/75">
-              Join the DOZE launch list for first-drop updates, early access, and product news before launch day.
+              We’re finalizing the liner, packaging, and production now. Join
+              the waitlist and be first to know when DOZE is ready.
             </p>
 
             <div className="mt-12 space-y-5 text-sm text-white/80 md:mt-16">
               {[
                 "First-drop launch updates",
-                "Early access when DOZE goes live",
-                "No unnecessary inbox clutter",
+                "Early access when ordering opens",
+                "Behind-the-scenes product progress",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/10">
@@ -199,56 +125,71 @@ export default function LaunchPage(): ReactNode {
                 </div>
               ))}
             </div>
+
+            <a
+              href="https://www.instagram.com/dozesleepclean/"
+              target="_blank"
+              rel="noreferrer"
+              className="mt-12 inline-flex items-center gap-2 text-sm font-medium text-white/75 transition hover:text-white"
+            >
+              <Instagram className="h-4 w-4" />
+              Follow the build @dozesleepclean
+            </a>
           </section>
 
           <section className="px-6 py-10 md:px-12 md:py-14 lg:px-14 lg:py-16">
-            <div className="mb-9 flex rounded-full bg-brand-blue-soft/15 p-1.5">
-              <button
-                type="button"
-                onClick={() => changeMode("email")}
-                className={`flex-1 rounded-full px-4 py-3 text-sm font-medium transition-all ${
-                  mode === "email"
-                    ? "bg-brand-ivory text-brand-blue-deep shadow-sm"
-                    : "text-brand-blue-deep/55 hover:text-brand-blue-deep"
-                }`}
-              >
-                Join with email
-              </button>
-              <button
-                type="button"
-                onClick={() => changeMode("account")}
-                className={`flex-1 rounded-full px-4 py-3 text-sm font-medium transition-all ${
-                  mode === "account"
-                    ? "bg-brand-ivory text-brand-blue-deep shadow-sm"
-                    : "text-brand-blue-deep/55 hover:text-brand-blue-deep"
-                }`}
-              >
-                Create account
-              </button>
+            <div className="bg-brand-blue-soft/20 text-brand-blue-deep mb-8 flex h-12 w-12 items-center justify-center rounded-full">
+              <Mail className="h-5 w-5" strokeWidth={1.5} />
             </div>
+            <p className="text-brand-blue-deep/50 mb-3 text-xs font-medium tracking-[0.2em] uppercase">
+              Early access
+            </p>
+            <h2
+              className="text-brand-blue-deep text-3xl font-normal tracking-tight md:text-4xl"
+              style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+            >
+              Join the DOZE waitlist.
+            </h2>
+            <p className="text-muted-foreground mt-4 max-w-lg text-base leading-relaxed">
+              No checkout yet and no pressure. Just launch updates while we
+              finish building the product.
+            </p>
 
-            {mode === "email" ? (
+            <form onSubmit={handleSignup} className="mt-9 space-y-4">
               <div>
-                <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-full bg-brand-blue-soft/20 text-brand-blue-deep">
-                  <Mail className="h-5 w-5" strokeWidth={1.5} />
-                </div>
-                <h2
-                  className="text-3xl font-normal tracking-tight text-brand-blue-deep md:text-4xl"
-                  style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+                <label
+                  htmlFor="launch-name"
+                  className="text-brand-blue-deep/55 mb-2 block text-xs font-medium tracking-[0.18em] uppercase"
                 >
-                  Just the updates.
-                </h2>
-                <p className="mt-4 max-w-lg text-base leading-relaxed text-muted-foreground">
-                  Enter your email to join the DOZE launch list.
-                </p>
+                  First name{" "}
+                  <span className="text-muted-foreground tracking-normal normal-case">
+                    (optional)
+                  </span>
+                </label>
+                <div className="relative">
+                  <UserRound className="text-brand-blue-deep/35 pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2" />
+                  <input
+                    id="launch-name"
+                    type="text"
+                    autoComplete="given-name"
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                    placeholder="Your name"
+                    disabled={isSubmitting}
+                    className="border-border/70 bg-background text-foreground focus:border-brand-blue focus:ring-brand-blue-soft/25 w-full rounded-2xl border py-4 pr-4 pl-11 text-base transition outline-none focus:ring-2 disabled:opacity-60"
+                  />
+                </div>
+              </div>
 
-                <form onSubmit={handleEmailSignup} className="mt-9">
-                  <label
-                    htmlFor="launch-email"
-                    className="mb-2 block text-xs font-medium tracking-[0.18em] uppercase text-brand-blue-deep/55"
-                  >
-                    Email address
-                  </label>
+              <div>
+                <label
+                  htmlFor="launch-email"
+                  className="text-brand-blue-deep/55 mb-2 block text-xs font-medium tracking-[0.18em] uppercase"
+                >
+                  Email address
+                </label>
+                <div className="relative">
+                  <Mail className="text-brand-blue-deep/35 pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2" />
                   <input
                     id="launch-email"
                     type="email"
@@ -258,109 +199,20 @@ export default function LaunchPage(): ReactNode {
                     onChange={(event) => setEmail(event.target.value)}
                     placeholder="you@email.com"
                     disabled={isSubmitting}
-                    className="w-full rounded-2xl border border-border/70 bg-background px-4 py-4 text-base text-foreground outline-none transition focus:border-brand-blue focus:ring-2 focus:ring-brand-blue-soft/25 disabled:opacity-60"
+                    className="border-border/70 bg-background text-foreground focus:border-brand-blue focus:ring-brand-blue-soft/25 w-full rounded-2xl border py-4 pr-4 pl-11 text-base transition outline-none focus:ring-2 disabled:opacity-60"
                   />
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="mt-4 flex w-full items-center justify-center gap-3 rounded-2xl bg-brand-blue-deep px-5 py-4 font-medium text-white transition-all hover:bg-brand-blue hover:shadow-lg hover:shadow-brand-blue-deep/10 disabled:cursor-wait disabled:opacity-60"
-                  >
-                    <span>{isSubmitting ? "Joining..." : "Join the launch list"}</span>
-                    {!isSubmitting && <ArrowRight className="h-4 w-4" />}
-                  </button>
-                </form>
-              </div>
-            ) : (
-              <div>
-                <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-full bg-brand-blue-soft/20 text-brand-blue-deep">
-                  <UserRound className="h-5 w-5" strokeWidth={1.5} />
                 </div>
-                <h2
-                  className="text-3xl font-normal tracking-tight text-brand-blue-deep md:text-4xl"
-                  style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
-                >
-                  Your DOZE account.
-                </h2>
-                <p className="mt-4 max-w-lg text-base leading-relaxed text-muted-foreground">
-                  Create an account for launch-list access now and a faster path to orders and account details later.
-                </p>
-
-                <form onSubmit={handleAccountSignup} className="mt-9 space-y-4">
-                  <div>
-                    <label
-                      htmlFor="account-name"
-                      className="mb-2 block text-xs font-medium tracking-[0.18em] uppercase text-brand-blue-deep/55"
-                    >
-                      Name
-                    </label>
-                    <input
-                      id="account-name"
-                      type="text"
-                      required
-                      autoComplete="name"
-                      value={name}
-                      onChange={(event) => setName(event.target.value)}
-                      placeholder="Your name"
-                      disabled={isSubmitting}
-                      className="w-full rounded-2xl border border-border/70 bg-background px-4 py-4 text-base text-foreground outline-none transition focus:border-brand-blue focus:ring-2 focus:ring-brand-blue-soft/25 disabled:opacity-60"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="account-email"
-                      className="mb-2 block text-xs font-medium tracking-[0.18em] uppercase text-brand-blue-deep/55"
-                    >
-                      Email address
-                    </label>
-                    <input
-                      id="account-email"
-                      type="email"
-                      required
-                      autoComplete="email"
-                      value={email}
-                      onChange={(event) => setEmail(event.target.value)}
-                      placeholder="you@email.com"
-                      disabled={isSubmitting}
-                      className="w-full rounded-2xl border border-border/70 bg-background px-4 py-4 text-base text-foreground outline-none transition focus:border-brand-blue focus:ring-2 focus:ring-brand-blue-soft/25 disabled:opacity-60"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="account-password"
-                      className="mb-2 block text-xs font-medium tracking-[0.18em] uppercase text-brand-blue-deep/55"
-                    >
-                      Password
-                    </label>
-                    <input
-                      id="account-password"
-                      type="password"
-                      required
-                      minLength={8}
-                      autoComplete="new-password"
-                      value={password}
-                      onChange={(event) => setPassword(event.target.value)}
-                      placeholder="At least 8 characters"
-                      disabled={isSubmitting}
-                      className="w-full rounded-2xl border border-border/70 bg-background px-4 py-4 text-base text-foreground outline-none transition focus:border-brand-blue focus:ring-2 focus:ring-brand-blue-soft/25 disabled:opacity-60"
-                    />
-                    <p className="mt-2 text-xs text-muted-foreground/70">
-                      Your password is handled securely by Supabase Auth.
-                    </p>
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="flex w-full items-center justify-center gap-3 rounded-2xl bg-brand-blue-deep px-5 py-4 font-medium text-white transition-all hover:bg-brand-blue hover:shadow-lg hover:shadow-brand-blue-deep/10 disabled:cursor-wait disabled:opacity-60"
-                  >
-                    <span>{isSubmitting ? "Creating account..." : "Create DOZE account"}</span>
-                    {!isSubmitting && <ArrowRight className="h-4 w-4" />}
-                  </button>
-                </form>
               </div>
-            )}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-brand-blue-deep hover:bg-brand-blue hover:shadow-brand-blue-deep/10 flex w-full items-center justify-center gap-3 rounded-2xl px-5 py-4 font-medium text-white transition-all hover:shadow-lg disabled:cursor-wait disabled:opacity-60"
+              >
+                <span>{isSubmitting ? "Joining..." : "Join the waitlist"}</span>
+                {!isSubmitting && <ArrowRight className="h-4 w-4" />}
+              </button>
+            </form>
 
             {notice && (
               <div
@@ -375,8 +227,9 @@ export default function LaunchPage(): ReactNode {
               </div>
             )}
 
-            <p className="mt-8 text-center text-xs leading-relaxed text-muted-foreground/70">
-              By joining, you’re asking DOZE to contact you about launch and product updates.
+            <p className="text-muted-foreground/70 mt-8 text-center text-xs leading-relaxed">
+              By joining, you’re asking DOZE to contact you about launch and
+              product updates. You can unsubscribe anytime.
             </p>
           </section>
         </div>

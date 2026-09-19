@@ -10,27 +10,37 @@ const faqs = [
   {
     question: "What is DOZE?",
     answer:
-      "DOZE is a disposable pillow liner designed to give you a fresh sleep surface without replacing and washing your pillowcase every single day.",
+      "DOZE is a disposable pillow liner being developed to give you a fresh sleep surface without replacing and washing your pillowcase every single day.",
   },
   {
-    question: "How often should I use a fresh liner?",
+    question: "Can I order DOZE right now?",
     answer:
-      "DOZE is built around a simple nightly reset: use a fresh liner for the night, then replace it when you are ready for bed again.",
+      "Not yet. DOZE is currently in pre-launch while the liner and packaging are being finalized. Join the waitlist to be among the first to know when ordering opens.",
   },
   {
-    question: "What does the liner feel like?",
+    question: "When will DOZE launch?",
     answer:
-      "The liner is being developed with a soft, lightweight lyocell-based nonwoven material selected to feel comfortable against your face while you sleep.",
+      "We are currently finalizing samples and production details. Rather than promise a date before those are locked, we will share launch timing with the waitlist as soon as production is confirmed.",
+  },
+  {
+    question: "How often is DOZE designed to be changed?",
+    answer:
+      "DOZE is being designed around a simple nightly reset: use a fresh liner for the night, then replace it when you are ready for bed again.",
+  },
+  {
+    question: "What will the liner feel like?",
+    answer:
+      "DOZE is being developed around a soft, lightweight lyocell material selected for overnight comfort. The final material and construction will be confirmed after physical sample testing.",
   },
   {
     question: "Can I travel with DOZE?",
     answer:
-      "Yes. DOZE is designed to be easy to pack for hotels, dorms, weekend trips, and anywhere you want to keep your usual sleep routine with you.",
+      "That is part of the idea. DOZE is being designed to pack easily for hotels, dorms, weekend trips, and anywhere you want to keep your usual sleep routine with you.",
   },
   {
     question: "Is DOZE an acne treatment?",
     answer:
-      "No. DOZE is a hygiene-focused sleep accessory, not a medical treatment. It is designed for people who want a fresh surface between their skin and pillow as part of their nightly routine.",
+      "No. DOZE is a hygiene-focused sleep accessory, not a medical treatment. It is being designed for people who want a fresh surface between their skin and pillow as part of their nightly routine.",
   },
 ];
 
@@ -58,7 +68,7 @@ function FAQItem({
         className="group flex w-full items-center justify-between py-6 text-left"
       >
         <span
-          className="text-foreground text-lg font-normal pr-8 md:text-xl"
+          className="text-foreground pr-8 text-lg font-normal md:text-xl"
           style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
         >
           {faq.question}
@@ -100,13 +110,15 @@ export function FAQ(): ReactNode {
   };
 
   return (
-    <section id="faq" className="bg-foreground px-6 py-16 md:py-32 rounded-4xl">
+    <section id="faq" className="bg-foreground rounded-4xl px-6 py-16 md:py-32">
       <div className="mx-auto max-w-3xl">
         <motion.div
           ref={headerRef}
           className="mb-12 text-center md:mb-16"
           initial={{ opacity: 0, y: 20 }}
-          animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          animate={
+            isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+          }
           transition={{ duration: 0.6, ease: easeOut }}
         >
           <p className="text-background/60 mb-3 text-xs font-medium tracking-[0.25em] uppercase">
@@ -121,7 +133,7 @@ export function FAQ(): ReactNode {
         </motion.div>
 
         <motion.div
-          className="bg-background rounded-2xl px-6 md:px-10 py-2"
+          className="bg-background rounded-2xl px-6 py-2 md:px-10"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -150,11 +162,11 @@ export function FAQ(): ReactNode {
           </p>
           <a
             href="/contact"
-            className="group inline-flex items-center gap-3 rounded-md bg-background py-3 pl-5 pr-3 font-medium text-foreground shadow-lg transition-all duration-500 ease-out hover:rounded-[50px]"
+            className="group bg-background text-foreground inline-flex items-center gap-3 rounded-md py-3 pr-3 pl-5 font-medium shadow-lg transition-all duration-500 ease-out hover:rounded-[50px]"
           >
             <span>Contact DOZE</span>
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-foreground text-background transition-all duration-300 group-hover:scale-110">
-              <ChevronRightIcon className="h-4 w-4 relative left-px" />
+            <span className="bg-foreground text-background flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110">
+              <ChevronRightIcon className="relative left-px h-4 w-4" />
             </span>
           </a>
         </motion.div>

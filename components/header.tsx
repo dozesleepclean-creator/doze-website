@@ -7,11 +7,20 @@ import React, { useState, useSyncExternalStore, type ReactNode } from "react";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
 const easeInOut = [0.65, 0, 0.35, 1] as const;
-const spring = { type: "spring", stiffness: 100, damping: 20, mass: 1 } as const;
+const spring = {
+  type: "spring",
+  stiffness: 100,
+  damping: 20,
+  mass: 1,
+} as const;
 const DESKTOP_BREAKPOINT = 700;
 
 const socialLinks = [
-  { label: "Instagram", icon: Instagram, href: "https://www.instagram.com/dozesleepclean/" },
+  {
+    label: "Instagram",
+    icon: Instagram,
+    href: "https://www.instagram.com/dozesleepclean/",
+  },
   { label: "Email", icon: Mail, href: "mailto:dozesleepclean@gmail.com" },
   { label: "Phone", icon: Phone, href: "tel:+14074055512" },
 ];
@@ -30,21 +39,29 @@ function useIsDesktop(): boolean {
 
 const menuCards = [
   {
-    id: "shop",
-    title: "SHOP",
+    id: "early-access",
+    title: "EARLY ACCESS",
     links: [
-      { label: "30 Liner Box", href: "#shop", badge: null },
-      { label: "Travel Pack", href: "#shop", badge: null },
-      { label: "Trial Pack", href: "#shop", badge: null },
+      { label: "Join the Waitlist", href: "/launch", badge: null },
+      {
+        label: "Follow on Instagram",
+        href: "https://www.instagram.com/dozesleepclean/",
+        badge: null,
+      },
+      {
+        label: "Follow on TikTok",
+        href: "https://www.tiktok.com/@sleepwithdoze",
+        badge: null,
+      },
     ],
   },
   {
     id: "learn",
     title: "LEARN",
     links: [
-      { label: "How It Works", href: "#how-it-works", badge: null },
-      { label: "Why DOZE", href: "#main-content", badge: null },
-      { label: "FAQ", href: "#faq", badge: null },
+      { label: "How It Works", href: "/#how-it-works", badge: null },
+      { label: "Why DOZE", href: "/#why-doze", badge: null },
+      { label: "FAQ", href: "/#faq", badge: null },
     ],
   },
   {
@@ -92,7 +109,7 @@ function MenuCard({ card }: { card: (typeof menuCards)[number] }): ReactNode {
         <div className="mt-6 flex h-[calc(100%-2rem)] flex-col justify-between pb-4">
           <div>
             <p
-              className="text-background text-2xl font-normal leading-tight"
+              className="text-background text-2xl leading-tight font-normal"
               style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
             >
               Questions before bedtime?
@@ -164,12 +181,12 @@ function MobileActions(): ReactNode {
     >
       <Link
         href="mailto:dozesleepclean@gmail.com"
-        className="text-background rounded-[3.5px] bg-background/10 px-6 py-3 text-base font-medium tracking-tight transition-colors hover:bg-background/15"
+        className="text-background bg-background/10 hover:bg-background/15 rounded-[3.5px] px-6 py-3 text-base font-medium tracking-tight transition-colors"
       >
         Contact
       </Link>
       <Link
-        href="mailto:dozesleepclean@gmail.com?subject=DOZE%20Launch%20List"
+        href="/launch"
         className="group bg-accent text-foreground relative rounded-[3.5px] px-6 py-3 text-base font-medium tracking-tight transition-all duration-500 hover:rounded-[50px]"
       >
         Join Launch List
@@ -187,7 +204,9 @@ export function Header(): ReactNode {
   const cardsDelay = isDesktop ? 0.7 : 0.2;
 
   React.useEffect(() => {
-    const wrapper = document.querySelector('.h-screen.overflow-y-auto') as HTMLElement;
+    const wrapper = document.querySelector(
+      ".h-screen.overflow-y-auto"
+    ) as HTMLElement;
     if (wrapper) {
       setScrollbarWidth(wrapper.offsetWidth - wrapper.clientWidth);
     }
@@ -233,7 +252,7 @@ export function Header(): ReactNode {
         transition={{ duration: 0.8, delay: 0.3, ease: easeOut }}
       >
         <motion.nav
-          className="bg-brand-ivory border-brand-blue/15 flex max-w-6xl flex-col overflow-hidden rounded-md border shadow-xl shadow-brand-blue-deep/10"
+          className="bg-brand-ivory border-brand-blue/15 shadow-brand-blue-deep/10 flex max-w-6xl flex-col overflow-hidden rounded-md border shadow-xl"
           initial={false}
           animate={{
             width: isMenuOpen ? "100%" : hasScrolled ? "56rem" : "42rem",
@@ -244,7 +263,7 @@ export function Header(): ReactNode {
             <Link
               href="/"
               aria-label="DOZE home"
-              className="text-brand-blue-deep text-[2.45rem] font-bold leading-none tracking-[-0.08em]"
+              className="text-brand-blue-deep text-[2.45rem] leading-none font-bold tracking-[-0.08em]"
               style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
             >
               doze

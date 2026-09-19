@@ -16,9 +16,9 @@ const fadeInUp = {
 };
 
 const exploreLinks = [
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Why DOZE", href: "#main-content" },
-  { label: "FAQ", href: "#faq" },
+  { label: "How It Works", href: "/#how-it-works" },
+  { label: "Why DOZE", href: "/#why-doze" },
+  { label: "FAQ", href: "/#faq" },
 ];
 
 const connectLinks = [
@@ -30,27 +30,31 @@ const connectLinks = [
 
 export function Footer(): ReactNode {
   return (
-    <footer className="bg-foreground text-background rounded-tr-4xl rounded-tl-4xl px-6 py-16 md:px-12 lg:px-20">
+    <footer className="bg-foreground text-background rounded-tl-4xl rounded-tr-4xl px-6 py-16 md:px-12 lg:px-20">
       <div className="mx-auto max-w-6xl">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
           <motion.div className="max-w-lg" {...fadeInUp}>
             <p className="text-background/75 text-lg leading-relaxed">
-              A fresh pillow surface for the nights you want your routine to feel a little cleaner, calmer, and easier.
+              DOZE is in pre-launch: a fresh pillow surface designed to make
+              your nightly routine feel cleaner, calmer, and easier.
             </p>
             <Link
               href="/launch"
-              className="group mt-8 inline-flex items-center gap-3 rounded-md bg-background py-3 pl-4 pr-3 font-medium text-foreground transition-all duration-500 ease-out hover:rounded-[50px]"
+              className="group bg-background text-foreground mt-8 inline-flex items-center gap-3 rounded-md py-3 pr-3 pl-4 font-medium transition-all duration-500 ease-out hover:rounded-[50px]"
             >
               <span>Join the launch list</span>
               <span className="bg-accent text-foreground flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110">
-                <ChevronRightIcon className="h-4 w-4 relative left-px" />
+                <ChevronRightIcon className="relative left-px h-4 w-4" />
               </span>
             </Link>
           </motion.div>
 
           <div className="grid grid-cols-2 gap-8 lg:justify-items-end">
-            <motion.div {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.1 }}>
-              <h4 className="text-background/45 mb-4 text-sm font-semibold uppercase tracking-wider">
+            <motion.div
+              {...fadeInUp}
+              transition={{ ...fadeInUp.transition, delay: 0.1 }}
+            >
+              <h4 className="text-background/45 mb-4 text-sm font-semibold tracking-wider uppercase">
                 Explore
               </h4>
               <ul className="space-y-3">
@@ -66,8 +70,11 @@ export function Footer(): ReactNode {
                 ))}
               </ul>
             </motion.div>
-            <motion.div {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.2 }}>
-              <h4 className="text-background/45 mb-4 text-sm font-semibold uppercase tracking-wider">
+            <motion.div
+              {...fadeInUp}
+              transition={{ ...fadeInUp.transition, delay: 0.2 }}
+            >
+              <h4 className="text-background/45 mb-4 text-sm font-semibold tracking-wider uppercase">
                 Connect
               </h4>
               <ul className="space-y-3">
@@ -100,9 +107,14 @@ export function Footer(): ReactNode {
           </motion.div>
 
           <div className="flex flex-col justify-between gap-8 lg:items-end lg:text-right">
-            <motion.div className="space-y-3" {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.1 }}>
+            <motion.div
+              className="space-y-3"
+              {...fadeInUp}
+              transition={{ ...fadeInUp.transition, delay: 0.1 }}
+            >
               <p className="text-background/70 max-w-md leading-relaxed">
-                Sleep cleaner. Wake clearer. A simpler nightly reset for people who care what their skin rests on.
+                Sleep clean. A simpler nightly reset for people who care what
+                their skin rests on. Join the waitlist for launch updates.
               </p>
               <a
                 href="mailto:dozesleepclean@gmail.com"
@@ -112,25 +124,29 @@ export function Footer(): ReactNode {
               </a>
               <a
                 href="tel:+14074055512"
-                className="block text-base text-background/75 transition-opacity hover:opacity-70"
+                className="text-background/75 block text-base transition-opacity hover:opacity-70"
               >
                 407-405-5512
               </a>
               <a
                 href="https://www.instagram.com/dozesleepclean/"
-                className="block text-base text-background/75 transition-opacity hover:opacity-70"
+                className="text-background/75 block text-base transition-opacity hover:opacity-70"
               >
                 @dozesleepclean
               </a>
               <a
                 href="https://www.tiktok.com/@sleepwithdoze"
-                className="block text-base text-background/75 transition-opacity hover:opacity-70"
+                className="text-background/75 block text-base transition-opacity hover:opacity-70"
               >
                 @sleepwithdoze
               </a>
             </motion.div>
 
-            <motion.div className="flex items-center gap-4 lg:justify-end" {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.2 }}>
+            <motion.div
+              className="flex items-center gap-4 lg:justify-end"
+              {...fadeInUp}
+              transition={{ ...fadeInUp.transition, delay: 0.2 }}
+            >
               <a
                 href="https://www.instagram.com/dozesleepclean/"
                 className="bg-background/10 text-background hover:bg-background hover:text-foreground flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 hover:scale-110"

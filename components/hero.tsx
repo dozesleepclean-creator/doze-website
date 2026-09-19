@@ -11,7 +11,7 @@ const cardData = [
   {
     title: "Naturally Soft",
     description:
-      "Made with soft, breathable bamboo lyocell for a comfortable night's sleep.",
+      "Being developed around soft, breathable lyocell for a comfortable night's sleep.",
     position: "50% 0%",
   },
   {
@@ -29,7 +29,7 @@ const cardData = [
   {
     title: "Made with Plant-Based Fibers",
     description:
-      "Crafted from responsibly sourced lyocell derived from bamboo and wood fibers.",
+      "Being developed with plant-based lyocell fibers, with the final material confirmed after sample testing.",
     position: "100% 0%",
   },
   {
@@ -130,14 +130,17 @@ export function Hero(): ReactNode {
         <DitherCursor color="#7f95b5" opacity={opacity} />
       )}
 
-      <div ref={headlineRef} className="relative z-10 mx-auto max-w-5xl text-center">
+      <div
+        ref={headlineRef}
+        className="relative z-10 mx-auto max-w-5xl text-center"
+      >
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: easeOut }}
           className="text-muted-foreground mb-5 text-xs font-medium tracking-[0.28em] uppercase md:text-sm"
         >
-          Disposable pillow liners
+          Pre-launch · Disposable pillow liners
         </motion.p>
 
         <motion.h1
@@ -157,23 +160,24 @@ export function Hero(): ReactNode {
           transition={{ duration: 0.8, delay: 0.35, ease: easeOut }}
           className="text-muted-foreground mx-auto max-w-2xl text-xl leading-relaxed tracking-tight md:text-2xl"
         >
-          A fresh pillow surface every night — without extra laundry.
+          A fresh pillow surface every night — without extra laundry. DOZE is
+          currently in development.
         </motion.p>
 
         <motion.a
-          href="#shop"
+          href="/launch"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.55, ease: easeOut }}
-          className="bg-brand-blue hover:bg-brand-blue-deep mt-8 inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-medium text-white shadow-lg shadow-brand-blue-deep/10 transition-colors"
+          className="bg-brand-blue hover:bg-brand-blue-deep shadow-brand-blue-deep/10 mt-8 inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-medium text-white shadow-lg transition-colors"
         >
-          Shop DOZE
+          Join the waitlist
         </motion.a>
       </div>
 
       <div
-        id="shop"
-        className="relative -mx-6 mt-10 w-screen overflow-hidden pb-10 pt-9 md:mt-12 md:pb-14"
+        id="why-doze"
+        className="relative -mx-6 mt-10 w-screen overflow-hidden pt-9 pb-10 md:mt-12 md:pb-14"
       >
         <p className="text-muted-foreground mb-4 text-center text-[0.65rem] font-medium tracking-[0.2em] uppercase">
           Click a card to learn more
@@ -182,7 +186,7 @@ export function Hero(): ReactNode {
         <div className="relative mx-auto h-[29rem] w-screen overflow-hidden md:h-[36rem]">
           <svg
             aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-0 h-[20rem] w-[74rem] max-w-none -translate-x-1/2 md:h-[28rem] md:w-[112rem]"
+            className="pointer-events-none absolute top-0 left-1/2 h-[20rem] w-[74rem] max-w-none -translate-x-1/2 md:h-[28rem] md:w-[112rem]"
             viewBox="0 0 1792 360"
             fill="none"
           >
@@ -208,7 +212,7 @@ export function Hero(): ReactNode {
                 key={card.title}
                 type="button"
                 onClick={() => setActiveFact(index)}
-                className="bg-brand-ivory border-border/60 absolute left-1/2 top-[13.5rem] w-[11.5rem] -translate-x-1/2 shrink-0 overflow-hidden rounded-2xl border p-2 text-left shadow-lg shadow-brand-blue-deep/10 sm:w-[12.5rem] md:top-[19rem] md:w-[14rem] lg:w-[14.25rem]"
+                className="bg-brand-ivory border-border/60 shadow-brand-blue-deep/10 absolute top-[13.5rem] left-1/2 w-[11.5rem] shrink-0 -translate-x-1/2 overflow-hidden rounded-2xl border p-2 text-left shadow-lg sm:w-[12.5rem] md:top-[19rem] md:w-[14rem] lg:w-[14.25rem]"
                 animate={
                   activeFact !== null
                     ? {
@@ -274,7 +278,7 @@ export function Hero(): ReactNode {
       </div>
 
       <motion.div
-        className="relative z-10 flex flex-col items-center px-6 pb-24 pt-2 text-center"
+        className="relative z-10 flex flex-col items-center px-6 pt-2 pb-24 text-center"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
@@ -288,7 +292,7 @@ export function Hero(): ReactNode {
         </h2>
         <motion.a
           href="#how-it-works"
-          className="bg-foreground text-background group mt-8 inline-flex w-full items-center justify-center gap-3 rounded-md py-3 pl-5 pr-3 font-medium shadow-lg shadow-foreground/10 transition-all duration-500 ease-out hover:rounded-[50px] sm:w-auto"
+          className="bg-foreground text-background group shadow-foreground/10 mt-8 inline-flex w-full items-center justify-center gap-3 rounded-md py-3 pr-3 pl-5 font-medium shadow-lg transition-all duration-500 ease-out hover:rounded-[50px] sm:w-auto"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
@@ -315,7 +319,7 @@ export function Hero(): ReactNode {
               role="dialog"
               aria-modal="true"
               aria-label={activeCard.title}
-              className="bg-brand-ivory border-border relative w-full max-w-md rounded-3xl border p-8 text-left shadow-2xl shadow-brand-blue-deep/20 md:p-10"
+              className="bg-brand-ivory border-border shadow-brand-blue-deep/20 relative w-full max-w-md rounded-3xl border p-8 text-left shadow-2xl md:p-10"
               initial={{ opacity: 0, scale: 0.94, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 12 }}
@@ -325,7 +329,7 @@ export function Hero(): ReactNode {
               <button
                 type="button"
                 onClick={() => setActiveFact(null)}
-                className="text-brand-blue-deep/60 hover:text-brand-blue-deep hover:bg-brand-blue-soft/20 absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full transition-colors"
+                className="text-brand-blue-deep/60 hover:text-brand-blue-deep hover:bg-brand-blue-soft/20 absolute top-5 right-5 flex h-9 w-9 items-center justify-center rounded-full transition-colors"
                 aria-label="Close fact"
               >
                 <X className="h-4 w-4" />

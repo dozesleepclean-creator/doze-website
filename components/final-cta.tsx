@@ -22,7 +22,7 @@ export function FinalCTA(): ReactNode {
   return (
     <section className="px-6 py-24 md:py-36">
       <motion.div
-        className="bg-accent relative mx-auto max-w-6xl overflow-hidden rounded-3xl px-6 py-12 text-center text-foreground md:rounded-4xl md:px-12 md:py-24"
+        className="bg-accent text-foreground relative mx-auto max-w-6xl overflow-hidden rounded-3xl px-6 py-12 text-center md:rounded-4xl md:px-12 md:py-24"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
@@ -49,22 +49,23 @@ export function FinalCTA(): ReactNode {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1, ease: easeOut }}
           >
-            Start every night fresh.
+            Be first to sleep clean.
           </motion.h2>
 
           <motion.p
-            className="mx-auto mb-10 max-w-xl text-lg text-foreground/70"
+            className="text-foreground/70 mx-auto mb-10 max-w-xl text-lg"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2, ease: easeOut }}
           >
-            DOZE is building a simpler way to start every night on a fresh pillow surface. Be first to know when the first drop is ready.
+            DOZE is currently in development. Join the waitlist for product
+            updates and first access when the first drop is ready.
           </motion.p>
 
           <motion.a
             href="/launch"
-            className="group inline-flex w-full items-center justify-center gap-3 rounded-md bg-foreground py-3 pl-5 pr-3 font-medium text-background transition-all duration-500 ease-out hover:rounded-[50px] hover:shadow-lg sm:w-auto"
+            className="group bg-foreground text-background inline-flex w-full items-center justify-center gap-3 rounded-md py-3 pr-3 pl-5 font-medium transition-all duration-500 ease-out hover:rounded-[50px] hover:shadow-lg sm:w-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             whileHover={{ scale: 1.02 }}
@@ -72,8 +73,8 @@ export function FinalCTA(): ReactNode {
             transition={{ duration: 0.6, delay: 0.3, ease: easeOut }}
           >
             <span>Join the launch list</span>
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground transition-all duration-300 group-hover:scale-110">
-              <ChevronRightIcon className="h-4 w-4 relative left-px" />
+            <span className="bg-background text-foreground flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110">
+              <ChevronRightIcon className="relative left-px h-4 w-4" />
             </span>
           </motion.a>
         </div>

@@ -1,17 +1,25 @@
 import type { Metadata } from "next";
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000");
+
 export const siteConfig = {
   name: "DOZE",
-  tagline: "Sleep clean. Wake clearer.",
+  tagline: "Sleep clean.",
   description:
-    "Disposable pillow liners designed to give you a fresh sleep surface each night without changing your pillowcase every day.",
-  url: "https://example.com",
+    "DOZE is developing disposable pillow liners for a fresh sleep surface each night. Join the waitlist for launch updates and early access.",
+  url: siteUrl,
   ogImage: "/og-image.png",
   creator: "DOZE",
   authors: [
     {
       name: "DOZE",
-      url: "https://example.com",
+      url: siteUrl,
     },
   ],
   keywords: [
