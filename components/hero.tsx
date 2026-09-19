@@ -160,8 +160,7 @@ export function Hero(): ReactNode {
           transition={{ duration: 0.8, delay: 0.35, ease: easeOut }}
           className="text-muted-foreground mx-auto max-w-2xl text-xl leading-relaxed tracking-tight md:text-2xl"
         >
-          A fresh pillow surface every night — without extra laundry. DOZE is
-          currently in development.
+          A fresh pillow surface every night — without extra laundry.
         </motion.p>
 
         <motion.a
