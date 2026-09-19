@@ -18,13 +18,15 @@ const cardData = [
     title: "A Fresh Surface, Nightly",
     description:
       "Enjoy a clean layer between your face and pillow every night.",
-    position: "0% 100%",
+    image: "/img/doze-open-box.webp",
+    position: "center",
   },
   {
     title: "Designed for Clearer Mornings",
     description:
       "Helps reduce contact with the oil, sweat, and buildup left behind on pillowcases.",
-    position: "50% 100%",
+    image: "/img/doze-clear-morning.webp",
+    position: "center",
   },
   {
     title: "Made with Plant-Based Fibers",
@@ -33,10 +35,11 @@ const cardData = [
     position: "100% 0%",
   },
   {
-    title: "Inspired by Real Skin Struggles",
+    title: "Fresh Sleep, Wherever You Go",
     description:
-      "DOZE was created to make sleeping cleaner feel simple—without doing laundry all the time.",
-    position: "100% 100%",
+      "A fresh pillow surface made easy at home, in hotels, and everywhere in between.",
+    image: "/img/doze-travel-lake-como.webp",
+    position: "center",
   },
 ];
 
@@ -246,8 +249,8 @@ export function Hero(): ReactNode {
                 <div
                   className="border-border/60 aspect-[4/3] w-full rounded-xl border bg-cover bg-no-repeat shadow-sm"
                   style={{
-                    backgroundImage: 'url("/img/doze-carousel-sprite.webp")',
-                    backgroundSize: "300% 200%",
+                    backgroundImage: `url("${card.image ?? "/img/doze-carousel-sprite.webp"}")`,
+                    backgroundSize: card.image ? "cover" : "300% 200%",
                     backgroundPosition: card.position,
                   }}
                   role="img"
