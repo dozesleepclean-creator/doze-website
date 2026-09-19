@@ -161,13 +161,13 @@ export function Hero(): ReactNode {
         </motion.p>
 
         <motion.a
-          href="#shop"
+          href="/launch"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.55, ease: easeOut }}
           className="bg-brand-blue hover:bg-brand-blue-deep mt-8 inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-medium text-white shadow-lg shadow-brand-blue-deep/10 transition-colors"
         >
-          Shop DOZE
+          Join the waitlist
         </motion.a>
       </div>
 
