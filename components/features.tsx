@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  ChevronRightIcon,
-  Feather,
-  Plane,
-  Sparkle,
-  type LucideIcon,
-} from "lucide-react";
+import Image from "next/image";
+import { ChevronRightIcon } from "lucide-react";
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
@@ -16,7 +11,9 @@ interface Feature {
   number: string;
   title: string;
   description: string;
-  icon: LucideIcon;
+  image: string;
+  imageAlt: string;
+  imagePosition?: string;
 }
 
 const features: Feature[] = [
@@ -25,21 +22,27 @@ const features: Feature[] = [
     title: "A fresh surface, nightly",
     description:
       "Your pillow collects yesterday. DOZE gives you a simple way to start each night on a fresh disposable layer.",
-    icon: Sparkle,
+    image: "/img/doze-feature-fresh.webp",
+    imageAlt: "Open blue DOZE box with fresh disposable pillow liners on a sunlit bed",
+    imagePosition: "center 54%",
   },
   {
     number: "02",
     title: "Soft enough for sleep",
     description:
       "Designed around a soft, lightweight feel so your cleaner bedtime routine still feels like bedtime.",
-    icon: Feather,
+    image: "/img/doze-feature-soft.webp",
+    imageAlt: "Soft white pillow and bedding in warm morning light",
+    imagePosition: "center 46%",
   },
   {
     number: "03",
     title: "Made for home and away",
     description:
       "Keep your routine consistent in your dorm, apartment, hotel, or wherever you put your head down for the night.",
-    icon: Plane,
+    image: "/img/doze-feature-travel.webp",
+    imageAlt: "Blue DOZE box packed inside an open suitcase",
+    imagePosition: "center 48%",
   },
 ];
 
@@ -50,8 +53,6 @@ function FeatureCard({
   feature: Feature;
   index: number;
 }): ReactNode {
-  const Icon = feature.icon;
-
   return (
     <motion.div
       className="bg-muted grid grid-cols-1 gap-2 overflow-hidden rounded-2xl p-2 md:grid-cols-2 transition-colors duration-300 hover:bg-muted/80 border border-border/50"
@@ -77,9 +78,16 @@ function FeatureCard({
         </p>
       </div>
 
-      <div className="bg-brand-ivory border-border/60 relative flex min-h-64 w-full items-center justify-center overflow-hidden rounded-xl border md:min-h-full">
-        <div className="bg-accent/40 absolute h-52 w-52 rounded-full blur-3xl" />
-        <Icon className="text-foreground relative z-10 h-24 w-24 md:h-32 md:w-32" strokeWidth={0.8} />
+      <div className="bg-brand-ivory border-border/60 relative min-h-64 w-full overflow-hidden rounded-xl border md:min-h-full">
+        <Image
+          src={feature.image}
+          alt={feature.imageAlt}
+          fill
+          sizes="(min-width: 1024px) 32vw, (min-width: 768px) 48vw, 100vw"
+          className="object-cover transition-transform duration-700 ease-out hover:scale-[1.025]"
+          style={{ objectPosition: feature.imagePosition ?? "center" }}
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/[0.04] to-transparent" />
       </div>
     </motion.div>
   );
