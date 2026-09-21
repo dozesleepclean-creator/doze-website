@@ -17,7 +17,8 @@ const cardData = [
     title: "Naturally Soft",
     description:
       "Made with soft, breathable bamboo lyocell for a comfortable night's sleep.",
-    position: "50% 0%",
+    image: "/img/doze-naturally-soft.webp",
+    position: "center",
   },
   {
     title: "A Fresh Surface, Nightly",
