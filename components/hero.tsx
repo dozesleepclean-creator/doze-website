@@ -38,7 +38,8 @@ const cardData = [
     title: "Made with Plant-Based Fibers",
     description:
       "Crafted from responsibly sourced lyocell derived from bamboo and wood fibers.",
-    position: "100% 0%",
+    image: "/img/doze-plant-fibers.webp",
+    position: "center",
   },
   {
     title: "Fresh Sleep, Wherever You Go",
