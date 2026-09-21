@@ -1,6 +1,11 @@
 "use client";
 
-import { ChevronRight as ChevronRightIcon, X } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronRight as ChevronRightIcon,
+  X,
+} from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import DitherCursor from "./dither-cursor";
@@ -43,27 +48,17 @@ const cardData = [
   },
 ];
 
-const desktopArcAngles = [-64, -32, 0, 32, 64];
-const mobileArcAngles = [-60, -30, 0, 30, 60];
-const cardRotations = [-6, -3, 0, 3, 6];
-
-function getArcPoint(angle: number, radiusX: number, radiusY: number) {
-  const radians = (angle * Math.PI) / 180;
-
-  return {
-    x: Math.sin(radians) * radiusX,
-    y: -Math.cos(radians) * radiusY,
-  };
-}
-
 export function Hero(): ReactNode {
   const sectionRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [isVisible, setIsVisible] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
   const [opacity, setOpacity] = useState(0);
   const [isMobile, setIsMobile] = useState(true);
   const [activeFact, setActiveFact] = useState<number | null>(null);
+  const [activeSlide, setActiveSlide] = useState(0);
   const opacityRef = useRef(0);
   const animationRef = useRef<number | null>(null);
 
@@ -119,10 +114,41 @@ export function Hero(): ReactNode {
     };
   }, [isVisible]);
 
-  const arcAngles = isMobile ? mobileArcAngles : desktopArcAngles;
-  const radiusX = isMobile ? 600 : 900;
-  const radiusY = isMobile ? 185 : 300;
-  const arcSweep = isMobile ? 5 : 10;
+  const scrollToCard = (index: number) => {
+    const normalizedIndex = (index + cardData.length) % cardData.length;
+    const carousel = carouselRef.current;
+    const card = cardRefs.current[normalizedIndex];
+
+    if (carousel && card) {
+      carousel.scrollTo({
+        left: card.offsetLeft - (carousel.clientWidth - card.offsetWidth) / 2,
+        behavior: "smooth",
+      });
+    }
+    setActiveSlide(normalizedIndex);
+  };
+
+  const updateActiveSlide = () => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    const carouselCenter = carousel.scrollLeft + carousel.clientWidth / 2;
+    let nearestIndex = 0;
+    let nearestDistance = Number.POSITIVE_INFINITY;
+
+    cardRefs.current.forEach((card, index) => {
+      if (!card) return;
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const distance = Math.abs(cardCenter - carouselCenter);
+
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestIndex = index;
+      }
+    });
+
+    setActiveSlide(nearestIndex);
+  };
 
   return (
     <section
@@ -133,7 +159,10 @@ export function Hero(): ReactNode {
         <DitherCursor color="#7f95b5" opacity={opacity} />
       )}
 
-      <div ref={headlineRef} className="relative z-10 mx-auto max-w-5xl text-center">
+      <div
+        ref={headlineRef}
+        className="relative z-10 mx-auto max-w-5xl text-center"
+      >
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -168,7 +197,7 @@ export function Hero(): ReactNode {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.55, ease: easeOut }}
-          className="bg-brand-blue hover:bg-brand-blue-deep mt-8 inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-medium text-white shadow-lg shadow-brand-blue-deep/10 transition-colors"
+          className="bg-brand-blue hover:bg-brand-blue-deep shadow-brand-blue-deep/10 mt-8 inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-medium text-white shadow-lg transition-colors"
         >
           Join the waitlist
         </motion.a>
@@ -176,78 +205,39 @@ export function Hero(): ReactNode {
 
       <div
         id="shop"
-        className="relative -mx-6 mt-10 w-screen overflow-hidden pb-10 pt-9 md:mt-12 md:pb-14"
+        className="relative -mx-6 mt-10 w-screen overflow-hidden pt-9 pb-12 md:mt-12 md:pb-16"
       >
-        <p className="text-muted-foreground mb-4 text-center text-[0.65rem] font-medium tracking-[0.2em] uppercase">
-          Click a card to learn more
+        <p className="text-muted-foreground mb-6 text-center text-[0.65rem] font-medium tracking-[0.2em] uppercase">
+          Swipe to explore
         </p>
 
-        <div className="relative mx-auto h-[29rem] w-screen overflow-hidden md:h-[36rem]">
-          <svg
-            aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-0 h-[20rem] w-[74rem] max-w-none -translate-x-1/2 md:h-[28rem] md:w-[112rem]"
-            viewBox="0 0 1792 360"
-            fill="none"
+        <div className="relative mx-auto w-full">
+          <div
+            ref={carouselRef}
+            onScroll={updateActiveSlide}
+            className="flex touch-pan-x snap-x snap-mandatory gap-5 overflow-x-auto px-[calc((100vw-min(82vw,20rem))/2)] pb-6 [scrollbar-width:none] md:gap-8 md:px-[calc((100vw-22rem)/2)] [&::-webkit-scrollbar]:hidden"
+            aria-label="DOZE benefits"
           >
-            <path
-              d="M18 338C360 6 1432 6 1774 338"
-              className="stroke-brand-blue-deep/12"
-              strokeWidth="1.25"
-              strokeDasharray="5 8"
-            />
-          </svg>
-
-          {cardData.map((card, index) => {
-            const baseAngle = arcAngles[index] ?? 0;
-            const baseRotation = cardRotations[index] ?? 0;
-            const phases = [-arcSweep, 0, arcSweep, 0, -arcSweep];
-            const arcPoints = phases.map((phase) =>
-              getArcPoint(baseAngle + phase, radiusX, radiusY)
-            );
-            const restingPoint = getArcPoint(baseAngle, radiusX, radiusY);
-
-            return (
+            {cardData.map((card, index) => (
               <motion.button
+                ref={(node) => {
+                  cardRefs.current[index] = node;
+                }}
                 key={card.title}
                 type="button"
                 onClick={() => setActiveFact(index)}
-                className="bg-brand-ivory border-border/60 absolute left-1/2 top-[13.5rem] w-[11.5rem] -translate-x-1/2 shrink-0 overflow-hidden rounded-2xl border p-2 text-left shadow-lg shadow-brand-blue-deep/10 sm:w-[12.5rem] md:top-[19rem] md:w-[14rem] lg:w-[14.25rem]"
-                animate={
-                  activeFact !== null
-                    ? {
-                        x: restingPoint.x,
-                        y: restingPoint.y,
-                        rotate: baseRotation,
-                        scale: 1,
-                      }
-                    : {
-                        x: arcPoints.map((point) => point.x),
-                        y: arcPoints.map((point) => point.y),
-                        rotate: [
-                          baseRotation - 1,
-                          baseRotation,
-                          baseRotation + 1,
-                          baseRotation,
-                          baseRotation - 1,
-                        ],
-                        scale: 1,
-                      }
-                }
-                transition={
-                  activeFact !== null
-                    ? { duration: 0.35, ease: easeOut }
-                    : {
-                        duration: 16,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }
-                }
-                whileHover={{ rotate: 0, scale: 1.04, zIndex: 30 }}
-                whileTap={{ scale: 0.985 }}
+                className="bg-brand-ivory border-border/60 shadow-brand-blue-deep/10 w-[min(82vw,20rem)] shrink-0 snap-center overflow-hidden rounded-3xl border p-2.5 text-left shadow-xl md:w-[22rem]"
+                animate={{
+                  opacity: activeSlide === index ? 1 : 0.55,
+                  scale: activeSlide === index ? 1 : 0.92,
+                }}
+                transition={{ duration: 0.3, ease: easeOut }}
+                whileTap={{ scale: 0.98 }}
                 aria-label={`Learn more: ${card.title}`}
+                aria-current={activeSlide === index ? "true" : undefined}
               >
                 <div
-                  className="border-border/60 aspect-[4/3] w-full rounded-xl border bg-cover bg-no-repeat shadow-sm"
+                  className="border-border/60 aspect-[4/3] w-full rounded-2xl border bg-cover bg-no-repeat shadow-sm"
                   style={{
                     backgroundImage: `url("${card.image ?? "/img/doze-carousel-sprite.webp"}")`,
                     backgroundSize: card.image ? "cover" : "300% 200%",
@@ -256,28 +246,68 @@ export function Hero(): ReactNode {
                   role="img"
                   aria-label={card.title}
                 />
-                <div className="flex min-h-14 items-center justify-center px-2 py-3 text-center">
+                <div className="flex min-h-20 items-center justify-center px-4 py-4 text-center">
                   <span
                     className="text-brand-blue-deep"
                     style={{
                       fontFamily: 'Georgia, "Times New Roman", serif',
-                      fontSize: "0.92rem",
+                      fontSize: "1.12rem",
                       fontWeight: 400,
                       letterSpacing: "-0.015em",
-                      lineHeight: 1.18,
+                      lineHeight: 1.2,
                     }}
                   >
                     {card.title}
                   </span>
                 </div>
               </motion.button>
-            );
-          })}
+            ))}
+          </div>
+
+          <div className="mt-1 flex items-center justify-center gap-5">
+            <button
+              type="button"
+              onClick={() => scrollToCard(activeSlide - 1)}
+              className="border-brand-blue-deep/20 text-brand-blue-deep hover:bg-brand-blue-soft/20 flex h-10 w-10 items-center justify-center rounded-full border transition-colors"
+              aria-label="Previous benefit"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+
+            <div
+              className="flex items-center gap-2"
+              aria-label="Choose a benefit"
+            >
+              {cardData.map((card, index) => (
+                <button
+                  key={card.title}
+                  type="button"
+                  onClick={() => scrollToCard(index)}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    activeSlide === index
+                      ? "bg-brand-blue-deep w-6"
+                      : "bg-brand-blue-deep/20 hover:bg-brand-blue-deep/40 w-2"
+                  }`}
+                  aria-label={`Show ${card.title}`}
+                  aria-current={activeSlide === index ? "true" : undefined}
+                />
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => scrollToCard(activeSlide + 1)}
+              className="border-brand-blue-deep/20 text-brand-blue-deep hover:bg-brand-blue-soft/20 flex h-10 w-10 items-center justify-center rounded-full border transition-colors"
+              aria-label="Next benefit"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       </div>
 
       <motion.div
-        className="relative z-10 flex flex-col items-center px-6 pb-24 pt-2 text-center"
+        className="relative z-10 flex flex-col items-center px-6 pt-2 pb-24 text-center"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
@@ -291,7 +321,7 @@ export function Hero(): ReactNode {
         </h2>
         <motion.a
           href="#how-it-works"
-          className="bg-foreground text-background group mt-8 inline-flex w-full items-center justify-center gap-3 rounded-md py-3 pl-5 pr-3 font-medium shadow-lg shadow-foreground/10 transition-all duration-500 ease-out hover:rounded-[50px] sm:w-auto"
+          className="bg-foreground text-background group shadow-foreground/10 mt-8 inline-flex w-full items-center justify-center gap-3 rounded-md py-3 pr-3 pl-5 font-medium shadow-lg transition-all duration-500 ease-out hover:rounded-[50px] sm:w-auto"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
@@ -318,7 +348,7 @@ export function Hero(): ReactNode {
               role="dialog"
               aria-modal="true"
               aria-label={activeCard.title}
-              className="bg-brand-ivory border-border relative w-full max-w-md rounded-3xl border p-8 text-left shadow-2xl shadow-brand-blue-deep/20 md:p-10"
+              className="bg-brand-ivory border-border shadow-brand-blue-deep/20 relative w-full max-w-md rounded-3xl border p-8 text-left shadow-2xl md:p-10"
               initial={{ opacity: 0, scale: 0.94, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 12 }}
@@ -328,7 +358,7 @@ export function Hero(): ReactNode {
               <button
                 type="button"
                 onClick={() => setActiveFact(null)}
-                className="text-brand-blue-deep/60 hover:text-brand-blue-deep hover:bg-brand-blue-soft/20 absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full transition-colors"
+                className="text-brand-blue-deep/60 hover:text-brand-blue-deep hover:bg-brand-blue-soft/20 absolute top-5 right-5 flex h-9 w-9 items-center justify-center rounded-full transition-colors"
                 aria-label="Close fact"
               >
                 <X className="h-4 w-4" />
