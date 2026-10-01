@@ -34,8 +34,6 @@ const menuCards = [
     title: "SHOP",
     links: [
       { label: "30 Liner Box", href: "#shop", badge: null },
-      { label: "Travel Pack", href: "#shop", badge: null },
-      { label: "Trial Pack", href: "#shop", badge: null },
     ],
   },
   {
