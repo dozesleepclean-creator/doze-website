@@ -234,6 +234,14 @@ export function Header(): ReactNode {
       >
         <motion.nav
           className="bg-brand-ivory border-brand-blue/15 flex max-w-6xl flex-col overflow-hidden rounded-md border shadow-xl shadow-brand-blue-deep/10"
+          onClick={(event) => {
+            if (
+              event.target instanceof Element &&
+              event.target.closest("a[href]")
+            ) {
+              setIsMenuOpen(false);
+            }
+          }}
           initial={false}
           animate={{
             width: isMenuOpen ? "100%" : hasScrolled ? "56rem" : "42rem",
